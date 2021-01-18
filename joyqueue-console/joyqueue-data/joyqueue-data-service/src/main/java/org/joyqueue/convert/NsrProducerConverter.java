@@ -1,12 +1,12 @@
 /**
  * Copyright 2019 The JoyQueue Authors.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,16 +31,16 @@ import java.util.stream.Collectors;
 /**
  * Created by wangxiaofei1 on 2019/1/2.
  */
-public class NsrProducerConverter extends Converter<Producer, org.joyqueue.domain.Producer>{
+public class NsrProducerConverter extends Converter<Producer, org.joyqueue.domain.Producer> {
 
     @Override
     protected org.joyqueue.domain.Producer forward(Producer producer) {
         org.joyqueue.domain.Producer nsrProducer = new org.joyqueue.domain.Producer();
         nsrProducer.setApp(producer.getApp().getCode());
         nsrProducer.setClientType(ClientType.valueOf(producer.getClientType()));
-        nsrProducer.setTopic(CodeConverter.convertTopic(producer.getNamespace(),producer.getTopic()));
-        if(!NullUtil.isEmpty(producer.getConfig())){
-            nsrProducer.setProducerPolicy(org.joyqueue.domain.Producer.ProducerPolicy.Builder.build()
+        nsrProducer.setTopic(CodeConverter.convertTopic(producer.getNamespace(), producer.getTopic()));
+        if (!NullUtil.isEmpty(producer.getConfig())) {
+            org.joyqueue.domain.Producer.ProducerPolicy producerPolicy = org.joyqueue.domain.Producer.ProducerPolicy.Builder.build()
                     .nearby(producer.getConfig().isNearBy())
                     .single(producer.getConfig().isSingle())
                     .blackList(producer.getConfig().getBlackList())
@@ -49,7 +49,11 @@ public class NsrProducerConverter extends Converter<Producer, org.joyqueue.domai
                     .timeout(producer.getConfig().getTimeout())
                     .qosLevel(producer.getConfig().getQosLevel())
                     .region(producer.getConfig().getRegion())
-                    .create());
+                    .create();
+            if (producer.getConfig().getParams() != null) {
+                producerPolicy.setParams(producer.getConfig().getParams());
+            }
+            nsrProducer.setProducerPolicy(producerPolicy);
             nsrProducer.setLimitPolicy(new org.joyqueue.domain.Producer.ProducerLimitPolicy(producer.getConfig().getLimitTps(), producer.getConfig().getLimitTraffic()));
         }
         return nsrProducer;
@@ -75,12 +79,12 @@ public class NsrProducerConverter extends Converter<Producer, org.joyqueue.domai
             producerConfig.setSingle(producerPolicy.isSingle());
             producerConfig.setQosLevel(producerPolicy.getQosLevel());
             producerConfig.setRegion(producerPolicy.getRegion());
-            Map<String,Short> map = producerPolicy.getWeight();
+            Map<String, Short> map = producerPolicy.getWeight();
             if (map != null) {
-                List<String> weightList = map.entrySet().stream().map(entry -> (entry.getKey()+":"+ entry.getValue()) ).collect(Collectors.toList());
-                producerConfig.setWeight(StringUtils.join(weightList,","));
+                List<String> weightList = map.entrySet().stream().map(entry -> (entry.getKey() + ":" + entry.getValue())).collect(Collectors.toList());
+                producerConfig.setWeight(StringUtils.join(weightList, ","));
             }
-            if (producerPolicy.getParams() !=null) {
+            if (producerPolicy.getParams() != null) {
                 producerConfig.setParams(producerPolicy.getParams());
             }
         }

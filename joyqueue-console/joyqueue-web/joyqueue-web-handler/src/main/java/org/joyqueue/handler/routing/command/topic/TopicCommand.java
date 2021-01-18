@@ -23,6 +23,7 @@ import com.jd.laf.web.vertx.annotation.QueryParam;
 import com.jd.laf.web.vertx.response.Response;
 import com.jd.laf.web.vertx.response.Responses;
 import org.apache.commons.collections.CollectionUtils;
+import org.joyqueue.domain.TopicName;
 import org.joyqueue.handler.annotation.PageQuery;
 import org.joyqueue.handler.error.ConfigException;
 import org.joyqueue.handler.error.ErrorCode;
@@ -142,6 +143,28 @@ public class TopicCommand extends NsrCommandSupport<Topic, TopicService, QTopic>
     @Override
     public Response update(@QueryParam(ID)String id, @Body Topic model) throws Exception {
         return super.update(id, model);
+    }
+
+    @Path("updateTopicTps")
+    public Response updateTopicTps(@QueryParam("topic")String topicCode, @QueryParam("type") String type, @QueryParam("tps") int tps) throws Exception {
+        TopicName topicName = TopicName.parse(topicCode);
+        Topic topic = service.findByCode(topicName.getNamespace(), topicName.getCode());
+        if (topic.getPolicy() != null) {
+            if (type.equalsIgnoreCase("producer")) {
+                topic.getPolicy().setProduceArchiveTps(tps);
+            } else if (type.equalsIgnoreCase("consumer")) {
+                topic.getPolicy().setConsumeArchiveTps(tps);
+            }
+        } else {
+            org.joyqueue.domain.Topic.TopicPolicy topicPolicy = new org.joyqueue.domain.Topic.TopicPolicy();
+            if (type.equalsIgnoreCase("producer")) {
+                topicPolicy.setProduceArchiveTps(tps);
+            } else if (type.equalsIgnoreCase("consumer")) {
+                topicPolicy.setConsumeArchiveTps(tps);
+            }
+            topic.setPolicy(topicPolicy);
+        }
+        return super.update(topic.getId(), topic);
     }
 
 }

@@ -344,6 +344,19 @@ public class OpenAPIServiceImpl implements OpenAPIService {
         if (topic == null) {
             throw new BusinessException("topic does not exist");
         }
+        if (topic.getCode().startsWith("shadow_")) {
+            String sourceTopic = topic.getCode().substring("shadow_".length());
+            List<Producer> producers = producerService.findByTopic("", topic.getCode());
+            for (Producer producer : producers) {
+                Producer srcProducer = producerService.findByTopicAppGroup("", sourceTopic, producer.getApp().getCode());
+                if (srcProducer != null) {
+                    if (srcProducer.getConfig().getParams() != null) {
+                        srcProducer.getConfig().getParams().put("shadow", "false");
+                        producerService.update(srcProducer);
+                    }
+                }
+            }
+        }
         topicService.delete(topic);
     }
 

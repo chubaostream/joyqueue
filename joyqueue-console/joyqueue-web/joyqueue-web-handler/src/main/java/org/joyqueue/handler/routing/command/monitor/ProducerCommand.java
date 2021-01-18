@@ -137,6 +137,15 @@ public class ProducerCommand extends NsrCommandSupport<Producer, ProducerService
     @Path("delete")
     public Response delete(@QueryParam(ID) String id) throws Exception {
         Producer producer = service.findById(id);
+        if (producer.getTopic().getCode().startsWith("shadow_")) {
+            String srcTopicCode = producer.getTopic().getCode().substring("shadow_".length());
+            String app = producer.getApp().getCode();
+            Producer srcProducer = service.findByTopicAppGroup("", srcTopicCode, app);
+            if (srcProducer.getConfig() != null && srcProducer.getConfig().getParams() != null) {
+                srcProducer.getConfig().getParams().put("shadow", "false");
+                service.update(srcProducer);
+            }
+        }
         int count = service.delete(producer);
         if (count <= 0) {
             throw new ConfigException(deleteErrorCode());

@@ -259,6 +259,9 @@ public class ConsumerCommand extends NsrCommandSupport<Consumer, ConsumerService
             if (StringUtils.isNotBlank(subscribeGroup)) {
                 consumers = consumers.stream().filter(consumer -> subscribeGroup.equals(consumer.getSubscribeGroup()))
                         .collect(Collectors.toList());
+            } else {
+                consumers = consumers.stream().filter(consumer -> StringUtils.isBlank(consumer.getSubscribeGroup()))
+                        .collect(Collectors.toList());
             }
             consumers = consumers.stream().filter(consumer -> consumer.getConfig() != null
                     && StringUtils.isNotBlank(consumer.getConfig().getRegion())

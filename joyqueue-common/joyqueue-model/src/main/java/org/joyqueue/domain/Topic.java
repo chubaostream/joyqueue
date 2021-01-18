@@ -121,6 +121,8 @@ public class Topic implements Serializable {
     public static class TopicPolicy implements Serializable {
         private Long storeMaxTime;
         private Boolean storeCleanKeepUnconsumed;
+        private Integer produceArchiveTps = -1;
+        private Integer consumeArchiveTps = -1;
         private Map<String, String> params;
 
         public Long getStoreMaxTime() {
@@ -137,6 +139,22 @@ public class Topic implements Serializable {
 
         public Boolean getStoreCleanKeepUnconsumed() {
             return storeCleanKeepUnconsumed;
+        }
+
+        public Integer getProduceArchiveTps() {
+            return produceArchiveTps;
+        }
+
+        public void setProduceArchiveTps(Integer produceArchiveTps) {
+            this.produceArchiveTps = produceArchiveTps;
+        }
+
+        public Integer getConsumeArchiveTps() {
+            return consumeArchiveTps;
+        }
+
+        public void setConsumeArchiveTps(Integer consumeArchiveTps) {
+            this.consumeArchiveTps = consumeArchiveTps;
         }
 
         public void setParams(Map<String, String> params) {

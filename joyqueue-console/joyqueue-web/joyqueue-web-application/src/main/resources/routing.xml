@@ -176,6 +176,9 @@
         <route inherit="put"
                path="/v1/topic/update/:id" handlers="validateAdmin topic#update render"
                errors="error"/>
+        <route inherit="put"
+               path="/v1/topic/updateTopicTps/:topic/:type/:tps" handlers="validateAdmin topic#updateTopicTps render"
+               errors="error"/>
         <route inherit="post"
                path="/v1/topic/delete" handlers="validateAdmin topic#delete render"
                errors="error"/>
