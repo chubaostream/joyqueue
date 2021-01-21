@@ -70,7 +70,7 @@
         <commons-cli.version>1.4</commons-cli.version>
         <httpclient.version>4.5.12</httpclient.version>
         <httpasyncclient.version>4.1.4</httpasyncclient.version>
-        <jackson-databind.version>2.9.10.4</jackson-databind.version>
+        <jackson-databind.version>2.9.10.7</jackson-databind.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <hibernate-validator.version>5.3.5.Final</hibernate-validator.version>
         <el.version>2.2.4</el.version>
