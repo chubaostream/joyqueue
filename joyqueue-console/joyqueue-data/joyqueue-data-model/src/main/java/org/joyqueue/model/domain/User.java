@@ -24,6 +24,7 @@ public class User extends BaseModel implements Identifier {
     private String code;
     private String name;
     private String orgId;
+    private String password;
     private String orgName;
     private String email;
     private String mobile;
@@ -102,6 +103,14 @@ public class User extends BaseModel implements Identifier {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public enum UserRole {

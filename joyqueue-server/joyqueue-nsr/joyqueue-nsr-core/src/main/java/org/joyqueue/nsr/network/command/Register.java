@@ -23,14 +23,20 @@ import org.joyqueue.network.transport.command.JoyQueuePayload;
  */
 public class Register extends JoyQueuePayload {
     private Integer brokerId;
+    private String brokerHost;
     private String brokerIp;
     private Integer port;
+    private String node;
 
-    public Register brokerId(Integer brokerId){
+    public Register brokerId(Integer brokerId) {
         this.brokerId = brokerId;
         return this;
     }
-    public Register brokerIp(String brokerIp){
+    public Register brokerHost(String brokerHost) {
+        this.brokerHost = brokerHost;
+        return this;
+    }
+    public Register brokerIp(String brokerIp) {
         this.brokerIp = brokerIp;
         return this;
     }
@@ -39,8 +45,17 @@ public class Register extends JoyQueuePayload {
         return this;
     }
 
+    public Register node(String node){
+        this.node = node;
+        return this;
+    }
+
     public Integer getBrokerId() {
         return brokerId;
+    }
+
+    public String getBrokerHost() {
+        return brokerHost;
     }
 
     public String getBrokerIp() {
@@ -49,6 +64,14 @@ public class Register extends JoyQueuePayload {
 
     public Integer getPort() {
         return port;
+    }
+
+    public String getNode() {
+        return node;
+    }
+
+    public void setNode(String node) {
+        this.node = node;
     }
 
     @Override

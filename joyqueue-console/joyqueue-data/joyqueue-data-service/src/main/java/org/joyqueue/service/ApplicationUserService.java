@@ -26,4 +26,5 @@ import org.joyqueue.model.query.QApplicationUser;
 public interface ApplicationUserService extends PageService<ApplicationUser, QApplicationUser>, Uniqueable<ApplicationUser> {
     ApplicationUser findByUserApp(String user, String app);
     int deleteByAppId(long appId);
+    int deleteAppUserByUserId(long userId);
 }

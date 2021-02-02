@@ -15,6 +15,9 @@
  */
 package org.joyqueue.handler.routing.command.monitor;
 
+
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joyqueue.handler.annotation.Operator;
 import org.joyqueue.model.domain.Identity;
 import org.joyqueue.model.domain.Producer;
@@ -55,12 +58,57 @@ public class ProducerConfigAddOrUpdateCommand implements Command<Response>, Pool
     public Response execute() throws Exception {
         Preconditions.checkArgument(null!=producerConfig,  "invalid argument");
         Producer producer = producerService.findById(producerConfig.getProducerId());
-        producer.setConfig(producerConfig);
+        mergeProducerConfig(producer, producerConfig);
         return Responses.success(producerService.update(producer));
     }
 
     @Override
     public void clean() {
         producerConfig = null;
+    }
+
+    private void mergeProducerConfig(Producer producer, ProducerConfig config) {
+        if (producer.getConfig() == null) {
+            producer.setConfig(config);
+            return;
+        }
+        if (StringUtils.isNotBlank(config.getBlackList())) {
+            producer.getConfig().setBlackList(config.getBlackList());
+        }
+        if (StringUtils.isNotBlank(config.getRegion())) {
+            producer.getConfig().setRegion(config.getRegion());
+        }
+        if (StringUtils.isNotBlank(config.getWeight())) {
+            producer.getConfig().setWeight(config.getWeight());
+        }
+        if (config.isArchive() != null) {
+            producer.getConfig().setArchive(config.isArchive());
+        }
+        if (config.isNearBy() != null) {
+            producer.getConfig().setNearBy(config.isNearBy());
+        }
+        if (config.isSingle() != null) {
+            producer.getConfig().setSingle(config.isSingle());
+        }
+        if (config.getQosLevel() != null) {
+            producer.getConfig().setQosLevel(config.getQosLevel());
+        }
+        if (config.getLimitTps() != null) {
+            producer.getConfig().setLimitTps(config.getLimitTps());
+        }
+        if (config.getLimitTraffic() !=null) {
+            producer.getConfig().setLimitTraffic(config.getLimitTraffic());
+        }
+        if (MapUtils.isNotEmpty(config.getParams())) {
+            if (producer.getConfig().getParams() != null) {
+                producer.getConfig().getParams().putAll(config.getParams());
+            }else  {
+                producer.getConfig().setParams(config.getParams());
+            }
+        }
+        if (config.getTimeout() !=null) {
+            producer.getConfig().setTimeout(config.getTimeout());
+        }
+
     }
 }

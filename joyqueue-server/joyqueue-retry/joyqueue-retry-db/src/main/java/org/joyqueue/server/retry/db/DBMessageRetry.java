@@ -53,41 +53,41 @@ import java.util.Map;
  */
 public class DBMessageRetry implements MessageRetry<Long> {
 
-    private static final Logger logger = LoggerFactory.getLogger(DBMessageRetry.class);
-    private static final String QUERY_SQL_NOID =
+    protected static final Logger logger = LoggerFactory.getLogger(DBMessageRetry.class);
+    protected static final String QUERY_SQL_NOID =
             "select id, business_id, topic, app, data, exception, send_time from message_retry where status = " + RetryStatus.RETRY_ING.getValue() +
                     " and topic = ? and app = ? and retry_time<=? limit ?, ?";
-    private static final String QUERY_COUNT_SQL =
+    protected static final String QUERY_COUNT_SQL =
             "select count(1) from message_retry where status = " + RetryStatus.RETRY_ING.getValue() + " and topic = ? and app = ?";
-    private static final String ERROR_UPDATE_SQL = "update message_retry set retry_time = ?, " +
+    protected static final String ERROR_UPDATE_SQL = "update message_retry set retry_time = ?, " +
             "retry_count = retry_count + 1, update_time = ?, status = ? where topic = ? and app = ? and id = ? and status = " + RetryStatus.RETRY_ING.getValue();
-    private static final String EXPIRE_UPDATE_SQL = "update message_retry set status = " + RetryStatus.RETRY_EXPIRE.getValue() + ", " +
+    protected static final String EXPIRE_UPDATE_SQL = "update message_retry set status = " + RetryStatus.RETRY_EXPIRE.getValue() + ", " +
             "update_time = ? where topic = ? and app = ? and id = ? and status = " + RetryStatus.RETRY_ING.getValue();
-    private static final String SUCCESS_UPDATE_SQL = "update message_retry set status = " + RetryStatus.RETRY_SUCCESS.getValue() + ", " +
+    protected static final String SUCCESS_UPDATE_SQL = "update message_retry set status = " + RetryStatus.RETRY_SUCCESS.getValue() + ", " +
             "retry_count = retry_count + 1, update_time = ? where topic = ? and app = ? and id = ? and status = " + RetryStatus.RETRY_ING.getValue();
-    private static final String CREATE_SQL = "insert into message_retry (message_id, business_id, topic, app, " +
+    protected static final String CREATE_SQL = "insert into message_retry (message_id, business_id, topic, app, " +
             "send_time, expire_time, retry_time, retry_count, status, data, exception, create_time, " +
             "update_time) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String GET_SQL =
+    protected static final String GET_SQL =
             "select id, business_id, topic, app, data, exception, send_time from message_retry where status = " + RetryStatus.RETRY_ING.getValue() +
                     " and topic = ? and app = ? and retry_time <= ? and id = ?";
-    private static final String QUERY_ENTITY_SQL = "select id, create_time, retry_count from message_retry where id = ? and topic = ?";
-    private static final String QUERY_ID_RETRY_TIME_SQL =
+    protected static final String QUERY_ENTITY_SQL = "select id, create_time, retry_count from message_retry where id = ? and topic = ?";
+    protected static final String QUERY_ID_RETRY_TIME_SQL =
             "select id, retry_time from message_retry where status = " + RetryStatus.RETRY_ING.getValue() +
                     " and topic = ? and app = ? and retry_time < NOW() limit ?";
 
     // 数据源
-    private DataSource writeDataSource;
+    protected DataSource writeDataSource;
     // read only data source
-    private DataSource readDataSource;
+    protected DataSource readDataSource;
 
     // start flag
-    private boolean isStartFlag = false;
+    protected boolean isStartFlag = false;
     // 重试策略
-    private RetryPolicyProvider retryPolicyProvider;
-    private DataSourceConfig writeDataSourceConfig = null;
-    private DataSourceConfig readDataSourceConfig = null;
-    private RetryPolicy retryPolicy = null;
+    protected RetryPolicyProvider retryPolicyProvider;
+    protected DataSourceConfig writeDataSourceConfig = null;
+    protected DataSourceConfig readDataSourceConfig = null;
+    protected RetryPolicy retryPolicy = null;
 
     public DBMessageRetry() {
     }

@@ -19,7 +19,7 @@
         <d-button type="primary" class="right" style="margin-right: 20px" @click="getList">刷新
           <icon name="plus-circle" style="margin-left: 3px;"></icon>
         </d-button>
-        <my-table :data="tableData" :showPin="showTablePin" style="overflow-y:auto" :page="page" :show-pagination="false" @on-size-change="handleSizeChange" @on-current-change="handleCurrentChange" @on-selection-change="handleSelectionChange"
+        <my-table :data="tableData" :showPin="showTablePin" style="overflow-y:auto" :page="page" @on-size-change="handleSizeChange" @on-current-change="handleCurrentChange" @on-selection-change="handleSelectionChange"
                   @on-edit="edit">
         </my-table>
         <d-button class="right load-btn" style="margin-right: 10px;" v-if="this.curIndex < this.cacheList.length-1" type="primary" @click="getRestList">加载更多
@@ -30,7 +30,7 @@
         <d-button type="primary" class="right" style="margin-right: 20px" @click="getList">刷新
           <icon name="plus-circle" style="margin-left: 3px;"></icon>
         </d-button>
-        <my-table :data="tableData" :showPin="showTablePin" style="overflow-y:auto" :page="page" :show-pagination="false" @on-size-change="handleSizeChange" @on-current-change="handleCurrentChange" @on-selection-change="handleSelectionChange"
+        <my-table :data="tableData" :showPin="showTablePin" style="overflow-y:auto" :page="page" @on-size-change="handleSizeChange" @on-current-change="handleCurrentChange" @on-selection-change="handleSelectionChange"
                   @on-edit="edit">
         </my-table>
         <d-button class="right load-btn" style="margin-right: 10px;" v-if="this.curIndex < this.cacheList.length-1" type="primary" @click="getRestList">加载更多
@@ -256,7 +256,7 @@ export default {
                 for (let i = 0; i < list.length; i++) {
                   let p = h('div', '')
                   if (list[i].id) {
-                    p = h('router-link', {
+                      p = h('router-link', {
                       style: {
                         'text-decoration': 'underline',
                         color: 'dodgerblue'

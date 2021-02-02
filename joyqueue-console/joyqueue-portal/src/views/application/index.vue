@@ -8,7 +8,7 @@
       </d-input>
       </grid-col>
       <grid-col span="4" offset="16">
-        <d-button type="primary" class="right" @click="openDialog('addDialog')">新建应用<icon name="plus-circle" style="margin-left: 5px;"></icon></d-button>
+        <d-button v-if="$store.getters.isAdmin" type="primary" class="right" @click="openDialog('addDialog')">新建应用<icon name="plus-circle" style="margin-left: 5px;"></icon></d-button>
       </grid-col>
     </grid-row>
     <my-table :data="tableData" :showPin="showTablePin" :page="page" @on-size-change="handleSizeChange" @on-current-change="handleCurrentChange"

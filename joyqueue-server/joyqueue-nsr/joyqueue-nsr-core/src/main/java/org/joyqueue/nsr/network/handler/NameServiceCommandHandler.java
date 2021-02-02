@@ -271,7 +271,7 @@ public class NameServiceCommandHandler implements NsrCommandHandler, Types, com.
                 break;
             case NsrCommandType.REGISTER:
                 Register register = (Register) command.getPayload();
-                Broker brokerRegister = nameService.register(register.getBrokerId(), register.getBrokerIp(), register.getPort());
+                Broker brokerRegister = nameService.register(register.getBrokerId(), register.getBrokerHost(), register.getBrokerIp(), register.getPort(), register.getNode());
                 if (null != brokerRegister) {
                     fillTransportBrokerId(transport, brokerRegister.getId());
                     response = new Command(new RegisterAck().broker(brokerRegister));

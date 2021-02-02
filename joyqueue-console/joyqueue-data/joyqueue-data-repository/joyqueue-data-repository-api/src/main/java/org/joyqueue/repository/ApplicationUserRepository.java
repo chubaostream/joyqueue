@@ -28,4 +28,5 @@ import org.springframework.stereotype.Repository;
 public interface ApplicationUserRepository extends PageRepository<ApplicationUser, QApplicationUser>, Uniqueable<ApplicationUser> {
     ApplicationUser findByUserApp(ApplicationUser applicationUser);
     int deleteByAppId(long appId);
+    int deleteAppUserByUserId(long userId);
 }

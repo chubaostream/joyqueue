@@ -112,8 +112,8 @@ public class ThinNameServer extends Service implements NameService, PropertySupp
     }
 
     @Override
-    public Broker register(Integer brokerId, String brokerIp, Integer port) {
-        return delegate.register(brokerId, brokerIp, port);
+    public Broker register(Integer brokerId, String brokerHost, String brokerIp, Integer port, String node) {
+        return delegate.register(brokerId, brokerHost, brokerIp, port, node);
     }
 
     @Override

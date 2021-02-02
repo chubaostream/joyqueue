@@ -6,7 +6,8 @@
       "workflow": "流程中心",
       "tool": "系统工具",
       "setting": "系统管理",
-      "logout": "退出"
+      "logout": "退出",
+      "login": "登录"
     },
     "tool": {
       "retry": "重试查询",
@@ -15,6 +16,7 @@
       "msgFilter": "消息查询"
     },
     "setting": {
+      "user": "用户管理",
       "dataCenter": "数据中心管理",
       "config": "配置管理",
       "brokerGroup": "Broker分组管理",
@@ -30,7 +32,8 @@
       "workflow": "Workflow",
       "tool": "Tools",
       "setting": "Setting",
-      "logout": "Sign Out"
+      "logout": "Sign Out",
+      "login": "Sign In"
     },
     "tool": {
       "retry": "Retry Query",
@@ -39,6 +42,7 @@
       "msgFilter": "Message Query"
     },
     "setting": {
+      "user": "User Manage",
       "dataCenter": "Data Center Manage",
       "config": "Config Manage",
       "brokerGroup": "Broker Group Manage",

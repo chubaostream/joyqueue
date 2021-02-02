@@ -26,6 +26,8 @@ public enum SourceType {
 
     JOYQUEUE((byte) 3),
 
+    JOYQUEUE0((byte) 4),
+
     OTHERS((byte) 10),
 
     INTERNAL((byte) 11),

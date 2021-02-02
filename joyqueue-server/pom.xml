@@ -20,7 +20,7 @@
     <parent>
         <artifactId>joyqueue</artifactId>
         <groupId>org.joyqueue</groupId>
-        <version>4.2.8-SNAPSHOT</version>
+        <version>4.2.7.TPAAS</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -41,6 +41,7 @@
         <module>joyqueue-retry</module>
         <module>joyqueue-store</module>
         <module>joyqueue-nsr</module>
+        <module>joyqueue-broker-joyqueue0</module>
     </modules>
 
     <dependencyManagement>

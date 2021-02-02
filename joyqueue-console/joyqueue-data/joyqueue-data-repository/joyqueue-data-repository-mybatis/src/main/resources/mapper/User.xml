@@ -7,6 +7,7 @@
         <result property="id" column="id" jdbcType="BIGINT"/>
         <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="orgId" column="org_id" jdbcType="VARCHAR"/>
         <result property="orgName" column="org_name" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
@@ -38,6 +39,7 @@
         u.id,
         u.code,
         u.`name`,
+        u.`password`,
         u.`org_id`,
         u.`org_name`,
         u.`email`,
@@ -56,6 +58,7 @@
         (
         code,
         `name`,
+        `password`,
         `org_id`,
         `org_name`,
         `email`,
@@ -71,6 +74,7 @@
         (
         #{code},
         #{name},
+        #{password},
         #{orgId},
         #{orgName},
         #{email},
@@ -90,6 +94,9 @@
         SET
         <if test="name != null and name !=''">
             `name`=#{name},
+        </if>
+        <if test="password !=null and password != ''">
+            `password` = #{password},
         </if>
         <if test="email != null and email !=''">
             `email`=#{email},
@@ -238,6 +245,13 @@
             and u.`status` > -1
         </where>
         order by u.id desc
+    </select>
+
+    <select id="findUserByNameAndPassword" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM `user` u
+        WHERE ( u.name = #{name} OR u.code = #{name}) AND u.password = #{password} limit 1
     </select>
 
     <select id="findCountByQuery" parameterType="qpagequery" resultType="int">

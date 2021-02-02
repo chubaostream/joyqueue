@@ -19,8 +19,6 @@ export default {
     ...mapGetters([
       'loginUsername'
     ])
-  },
-  mounted () {
   }
 }
 </script>

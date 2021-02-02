@@ -20,14 +20,14 @@
     <parent>
         <artifactId>joyqueue-server</artifactId>
         <groupId>org.joyqueue</groupId>
-        <version>4.2.8-SNAPSHOT</version>
+        <version>4.2.7.TPAAS</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>joyqueue-broker-core</artifactId>
     <name>JoyQueue-Broker-Core</name>
     <description>Broker core library</description>
-    <version>4.2.8-SNAPSHOT</version>
+    <version>4.2.7.TPAAS</version>
 
     <dependencies>
         <dependency>
@@ -54,6 +54,10 @@
         <dependency>
             <groupId>org.joyqueue</groupId>
             <artifactId>joyqueue-retry-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.joyqueue</groupId>
+            <artifactId>joyqueue-retry-db-cache</artifactId>
         </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
@@ -106,7 +110,7 @@
         <dependency>
             <groupId>org.joyqueue</groupId>
             <artifactId>joyqueue-store-core</artifactId>
-            <version>4.2.8-SNAPSHOT</version>
+            <version>4.2.7.TPAAS</version>
             <scope>test</scope>
         </dependency>
         <dependency>

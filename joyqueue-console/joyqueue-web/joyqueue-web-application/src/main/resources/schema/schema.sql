@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `update_by` bigint(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态：-1 删除，0 禁用，1 启用',
+  `password` varchar(64) DEFAULT '' COMMENT '用户密码',
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB CHARSET=utf8;
 
@@ -108,6 +109,22 @@ CREATE TABLE IF NOT EXISTS `broker_group_related` (
   `id` bigint(20) unsigned NOT NULL COMMENT 'brokerId',
   `group_id` bigint(20) DEFAULT NULL COMMENT 'Broker分组id',
   `group_code` varchar(128) DEFAULT NULL COMMENT 'Broker分组code',
+  `node_name` varchar(128) DEFAULT NULL COMMENT '主机名',
+  `node_ip` varchar(20) DEFAULT NULL COMMENT '主机IP',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `create_by` bigint(20) NOT NULL COMMENT '创建人',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `update_by` bigint(20) NOT NULL COMMENT '修改人',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态: -1 删除，0 禁用，1 启用',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `broker_related` (
+  `id` bigint(20) unsigned NOT NULL COMMENT 'brokerId',
+  `group_id` bigint(20) DEFAULT NULL COMMENT 'Broker分组id',
+  `group_code` varchar(128) DEFAULT NULL COMMENT 'Broker分组code',
+  `node_name` varchar(128) DEFAULT NULL COMMENT '主机名',
+  `node_ip` varchar(20) DEFAULT NULL COMMENT '主机IP',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `create_by` bigint(20) NOT NULL COMMENT '创建人',
   `update_time` datetime NOT NULL COMMENT '修改时间',
@@ -160,7 +177,53 @@ CREATE TABLE IF NOT EXISTS `topic_msg_filter` (
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `message_retry` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+ `message_id` varchar(50) NOT NULL COMMENT '消息编号',
+ `business_id` varchar(100) DEFAULT NULL COMMENT '业务编号',
+ `topic` varchar(100) NOT NULL COMMENT '主题',
+ `app` varchar(100) NOT NULL COMMENT '应用',
+ `send_time` datetime NOT NULL COMMENT '发送时间',
+ `expire_time` datetime NOT NULL COMMENT '过期时间',
+ `retry_time` datetime NOT NULL COMMENT '重试时间',
+ `retry_count` int(10) NOT NULL DEFAULT '0' COMMENT '重试次数',
+ `data` mediumblob NOT NULL COMMENT '消息体',
+ `exception` blob COMMENT '异常信息',
+ `create_time` datetime NOT NULL COMMENT '创建时间',
+ `create_by` int(10) NOT NULL DEFAULT '0' COMMENT '创建人',
+ `update_time` datetime NOT NULL COMMENT '更新时间',
+ `update_by` int(10) NOT NULL DEFAULT '0' COMMENT '更新人',
+ `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态,0:成功,1:失败,-2:过期',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARSET=utf8;
+
 -- init default admin USER
-MERGE INTO `user`
-(`id`, `code`, `name`, `org_id`, `org_name`, `email`, `mobile`, `role`, `sign`, `create_by`, `create_time`, `update_by`, `update_time`, `status`)
-VALUES (1, 'admin', 'Admin', NULL, NULL, NULL, NULL, 1, 0, NULL, '2019-01-01 00:00:00', -1, '2019-01-01 00:00:00', 1);
+INSERT INTO
+ `user`(
+    `id`,
+    `code`,
+    `name`,
+    `org_id`,
+    `org_name`,
+    `email`,
+    `mobile`,
+    `role`,
+    `sign`,
+    `create_by`,
+    `create_time`,
+    `update_by`,
+    `update_time`,
+    `status`,
+    `password`)
+SELECT
+  1, 'admin', 'Admin', NULL, NULL, NULL, NULL, 1, 0, NULL, NOW(), -1, NOW(), 1, '123456'
+FROM
+  Dual
+WHERE
+  NOT EXISTS (SELECT 1 FROM  `user`);
+
+
+-- init default admin USER
+-- MERGE INTO `user`
+-- (`id`, `code`, `name`, `org_id`, `org_name`, `email`, `mobile`, `role`, `sign`, `create_by`, `create_time`, `update_by`, `update_time`, `status`)
+-- VALUES (1, 'admin', 'Admin', NULL, NULL, NULL, NULL, 1, 0, NULL, '2019-01-01 00:00:00', -1, '2019-01-01 00:00:00', 1);

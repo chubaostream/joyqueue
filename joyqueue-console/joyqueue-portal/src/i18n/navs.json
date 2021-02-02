@@ -1,6 +1,11 @@
 {
   "zh-CN": [
     {
+      "name": "login",
+      "path": "/login",
+      "component": "login/login.vue"
+    },
+    {
       "name": "application",
       "path": "/application",
       "component": "application/index.vue"
@@ -111,6 +116,11 @@
     }
   ],
   "en-US": [
+    {
+      "name": "login",
+      "path": "/login",
+      "component": "login/login.vue"
+    },
     {
       "name": "application",
       "path": "/application",

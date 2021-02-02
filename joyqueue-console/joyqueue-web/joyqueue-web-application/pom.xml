@@ -20,10 +20,10 @@
     <parent>
         <artifactId>joyqueue-web</artifactId>
         <groupId>org.joyqueue</groupId>
-        <version>4.2.8-SNAPSHOT</version>
+        <version>4.2.7.TPAAS</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <version>4.2.8-SNAPSHOT</version>
+    <version>4.2.7.TPAAS</version>
 
     <artifactId>joyqueue-web-application</artifactId>
 
@@ -69,6 +69,10 @@
         <dependency>
             <artifactId>laf-vertx-web-springboot-starter</artifactId>
             <groupId>com.jd.joyqueue</groupId>
+        </dependency>
+        <dependency>
+            <groupId>org.joyqueue</groupId>
+            <artifactId>joyqueue-datasource-hikaricp</artifactId>
         </dependency>
 
         <dependency>

@@ -60,6 +60,9 @@ public class DbConsoleMessageRetry implements ConsoleMessageRetry<Long> {
 
     @Override
     public void start() throws Exception {
+        if (propertySupplier != null) {
+            dbMessageRetry.setSupplier(this.propertySupplier);
+        }
         dbMessageRetry.start();
         this.dataSource = dbMessageRetry.getDataSource();
         this.readDataSource=dbMessageRetry.getReadDataSource();

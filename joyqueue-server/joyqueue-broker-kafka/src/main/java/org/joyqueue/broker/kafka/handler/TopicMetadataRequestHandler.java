@@ -181,7 +181,7 @@ public class TopicMetadataRequestHandler extends AbstractKafkaCommandHandler imp
         for (Map.Entry<String, TopicConfig> topicEntry : topicConfigs.entrySet()) {
             for (Map.Entry<Integer, Broker> entry : topicEntry.getValue().fetchAllBroker().entrySet()) {
                 Broker broker = entry.getValue();
-                KafkaBroker kafkaBroker = new KafkaBroker(broker.getId(), broker.getIp(), broker.getPort());
+                KafkaBroker kafkaBroker = new KafkaBroker(broker.getId(), broker.getRealIp(), broker.getRealPort());
                 result.add(kafkaBroker);
             }
         }
@@ -223,20 +223,20 @@ public class TopicMetadataRequestHandler extends AbstractKafkaCommandHandler imp
             List<KafkaBroker> isrs = Lists.newLinkedList();
 
             if (partition.getLeader() != null) {
-                leader = new KafkaBroker(partition.getLeader().getId(), partition.getLeader().getIp(), partition.getLeader().getPort());
+                leader = new KafkaBroker(partition.getLeader().getId(), partition.getLeader().getRealIp(), partition.getLeader().getRealPort());
             } else {
                 errorCode = KafkaErrorCode.LEADER_NOT_AVAILABLE.getCode();
             }
 
             if (CollectionUtils.isNotEmpty(partition.getReplicas())) {
                 for (Broker replica : partition.getReplicas()) {
-                    replicas.add(new KafkaBroker(replica.getId(), replica.getIp(), replica.getPort()));
+                    replicas.add(new KafkaBroker(replica.getId(), replica.getRealIp(), replica.getRealPort()));
                 }
             }
 
             if (CollectionUtils.isNotEmpty(partition.getIsrs())) {
                 for (Broker isr : partition.getIsrs()) {
-                    isrs.add(new KafkaBroker(isr.getId(), isr.getIp(), isr.getPort()));
+                    isrs.add(new KafkaBroker(isr.getId(), isr.getRealIp(), isr.getRealPort()));
                 }
             }
 

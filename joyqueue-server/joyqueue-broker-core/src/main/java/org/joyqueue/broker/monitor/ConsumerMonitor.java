@@ -81,6 +81,15 @@ public interface ConsumerMonitor {
     void onRetryFailure(String topic, String app, long count);
 
     /**
+     * 消息位置被重置
+     *
+     * @param topic
+     * @param app
+     * @return
+     */
+    void onOffsetReset(String topic, String app, long count);
+
+    /**
      * 消费监控统计
      *
      * @param topic

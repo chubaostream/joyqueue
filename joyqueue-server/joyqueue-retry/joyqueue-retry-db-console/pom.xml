@@ -20,7 +20,7 @@
     <parent>
         <artifactId>joyqueue-retry</artifactId>
         <groupId>org.joyqueue</groupId>
-        <version>4.2.8-SNAPSHOT</version>
+        <version>4.2.7.TPAAS</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,12 +32,12 @@
         <dependency>
             <groupId>org.joyqueue</groupId>
             <artifactId>joyqueue-retry-api</artifactId>
-            <version>4.2.8-SNAPSHOT</version>
+            <version>4.2.7.TPAAS</version>
         </dependency>
         <dependency>
             <groupId>org.joyqueue</groupId>
             <artifactId>joyqueue-retry-db</artifactId>
-            <version>4.2.8-SNAPSHOT</version>
+            <version>4.2.7.TPAAS</version>
         </dependency>
     </dependencies>
 

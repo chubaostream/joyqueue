@@ -31,14 +31,20 @@ public class RegisterCodec implements NsrPayloadCodec<Register>, Type {
     @Override
     public Register decode(Header header, ByteBuf buffer) throws Exception {
         int brokerId = buffer.readInt();
-        return new Register().brokerId(brokerId>0?brokerId:null).brokerIp(Serializer.readString(buffer)).port(buffer.readInt());
+        return new Register().brokerId(brokerId>0?brokerId:null)
+                .brokerIp(Serializer.readString(buffer))
+                .brokerHost(Serializer.readString(buffer))
+                .port(buffer.readInt())
+                .node(Serializer.readString(buffer));
     }
 
     @Override
     public void encode(Register payload, ByteBuf buffer) throws Exception {
         buffer.writeInt(null==payload.getBrokerId()?0:payload.getBrokerId());
         Serializer.write(payload.getBrokerIp(),buffer);
+        Serializer.write(payload.getBrokerHost(), buffer);
         buffer.writeInt(payload.getPort());
+        Serializer.write(payload.getNode(), buffer);
     }
 
     @Override

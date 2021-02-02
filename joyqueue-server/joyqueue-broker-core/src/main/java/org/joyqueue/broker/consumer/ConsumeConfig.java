@@ -16,6 +16,7 @@
 package org.joyqueue.broker.consumer;
 
 import org.joyqueue.broker.config.BrokerConfig;
+import org.joyqueue.broker.config.BrokerStoreConfig;
 import org.joyqueue.toolkit.config.Property;
 import org.joyqueue.toolkit.config.PropertySupplier;
 
@@ -27,10 +28,12 @@ public class ConsumeConfig {
     private PropertySupplier propertySupplier;
     private String consumePositionPath;
     private BrokerConfig brokerConfig;
+    private BrokerStoreConfig brokerStoreConfig;
 
     public ConsumeConfig(PropertySupplier propertySupplier) {
         this.propertySupplier = propertySupplier;
         this.brokerConfig = new BrokerConfig(propertySupplier);
+        this.brokerStoreConfig = new BrokerStoreConfig(propertySupplier);
     }
 
     public String getConsumePositionPath() {
@@ -105,5 +108,9 @@ public class ConsumeConfig {
 
     public int getPartitionSelectRetryMax() {
         return propertySupplier.getValue(ConsumeConfigKey.PARTITION_SELECT_RETRY_MAX);
+    }
+
+    public boolean keepUnconsumed(String topic) {
+        return brokerStoreConfig.keepUnconsumed(topic);
     }
 }

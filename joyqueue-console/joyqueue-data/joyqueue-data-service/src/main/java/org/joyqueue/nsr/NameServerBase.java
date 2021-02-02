@@ -18,6 +18,7 @@ package org.joyqueue.nsr;
 import com.alibaba.fastjson.JSON;
 import org.joyqueue.model.domain.Identity;
 import org.joyqueue.model.domain.OperLog;
+import org.joyqueue.model.domain.User;
 import org.joyqueue.service.OperLogService;
 import org.joyqueue.toolkit.security.EscapeUtils;
 import org.joyqueue.util.HttpUtil;
@@ -90,9 +91,9 @@ public class NameServerBase {
                 }
 
                 if (LocalSession.getSession() != null && LocalSession.getSession().getUser() != null){
-                    Long id = LocalSession.getSession().getUser().getId();
-                    operLog.setUpdateBy(new Identity(id));
-                    operLog.setCreateBy(new Identity(id));
+                    User user = LocalSession.getSession().getUser();
+                    operLog.setUpdateBy(new Identity(user.getId(), user.getCode()));
+                    operLog.setCreateBy(new Identity(user.getId(), user.getCode()));
                 } else {
                     operLog.setUpdateBy(new Identity(0L));
                     operLog.setCreateBy(new Identity(0L));

@@ -16,6 +16,7 @@
 package org.joyqueue.handler.routing;
 
 import org.joyqueue.handler.Constants;
+import org.joyqueue.model.domain.User;
 import org.joyqueue.util.LocalSession;
 import com.jd.laf.web.vertx.Command;
 import com.jd.laf.web.vertx.RoutingHandler;
@@ -30,9 +31,12 @@ public class GetLoginUserHandler implements RoutingHandler {
 
     @Override
     public void handle(final RoutingContext context) {
-        context.put(Command.RESULT, Responses.success(context.get(Constants.USER_KEY)));
-        LocalSession.getSession().setUser(context.get(Constants.USER_KEY));
-        context.next();
+        User user = context.get(Constants.USER_KEY);
+        if (user != null) {
+            context.put(Command.RESULT, Responses.success(user));
+            LocalSession.getSession().setUser(user);
+            context.next();
+        }
     }
 
     @Override

@@ -70,11 +70,15 @@ fi
 # ------ set CLASSPATH
 CLASSPATH="$BASEDIR"/conf/:"$BASEDIR"/root/:"$BASEDIR"/lib/*
 echo "$CLASSPATH"
+CONFIG_FILE="$BASEDIR/conf/application.properties"
+
+OPTS_MEMORY=`grep -ios '\s*web.opts.memory=.*$' ${CONFIG_FILE} | tr -d '\r'`
+OPTS_MEMORY=${OPTS_MEMORY#*=}
 
 #DEBUG_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000"
 #JPDA_OPTS="-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
 # ------ run proxy
-"$JAVACMD" $JPDA_OPTS \
+"$JAVACMD" $JPDA_OPTS $OPTS_MEMORY \
   -classpath "$CLASSPATH" \
   -Dbasedir="$BASEDIR" \
   -Dfile.encoding="UTF-8" \

@@ -81,7 +81,7 @@ export default {
   methods: {
     handleSelectionChange (val) {
       this.multipleSelection = val
-      this.$emit('on-choosed-broker', val)
+      this.$emit('', val)
     },
     leader (item) {
       let data = item

@@ -63,6 +63,8 @@ public class IpUtil {
 
     public static String PREFER_HOSTNAME_OVERIP = "preferHostnameOverIp";
 
+    public static String NODE_NAME_ENV = "NODE_NAME";
+
     static {
         // 从环境变量里面获取默认的网卡和管理网络
         NET_INTERFACE = System.getProperty("nic");
@@ -191,7 +193,7 @@ public class IpUtil {
         }
     }
 
-    private static String getDefaultLocalHost() {
+    public static String getDefaultLocalHost() {
         try {
             return InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
@@ -199,7 +201,7 @@ public class IpUtil {
         }
     }
 
-    private static String getDefaultLocalIp() {
+    public static String getDefaultLocalIp() {
         try {
             return InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
@@ -210,6 +212,14 @@ public class IpUtil {
             }
 
             return "127.0.0.1";
+        }
+    }
+
+    public static String getNode() {
+        try {
+            return System.getenv(NODE_NAME_ENV);
+        } catch (Throwable e) {
+            return "";
         }
     }
     /**

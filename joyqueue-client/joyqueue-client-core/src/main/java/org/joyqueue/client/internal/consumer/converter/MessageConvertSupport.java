@@ -76,7 +76,7 @@ public class MessageConvertSupport {
     public BrokerMessage convert(BrokerMessage message) {
         MessageConverter messageConverter = converterMap.get(message.getSource());
         if (messageConverter == null) {
-            if (message.getSource() != SourceType.JOYQUEUE.getValue() && message.getSource() != SourceType.JMQ.getValue()) {
+            if (message.getSource() != SourceType.JOYQUEUE.getValue() && message.getSource() != SourceType.JOYQUEUE0.getValue()) {
                 logger.warn("message converter not found, source: {}, current: {}", message.getSource(), converterMap);
             }
             return null;
@@ -90,7 +90,7 @@ public class MessageConvertSupport {
     public List<BrokerMessage> convertBatch(BrokerMessage message) {
         MessageConverter messageConverter = converterMap.get(message.getSource());
         if (messageConverter == null) {
-            if (message.getSource() != SourceType.JOYQUEUE.getValue() && message.getSource() != SourceType.JMQ.getValue()) {
+            if (message.getSource() != SourceType.JOYQUEUE.getValue() && message.getSource() != SourceType.JOYQUEUE0.getValue()) {
                 logger.warn("message converter not found, source: {}, current: {}", message.getSource(), converterMap);
             }
             return null;

@@ -112,8 +112,8 @@ export default {
             width: '10%'
           },
           {
-            title: '数据中心',
-            key: 'dataCenters',
+            title: '宿主机',
+            key: 'node',
             width: '20%'
           },
           {
@@ -250,6 +250,14 @@ export default {
       if (!addData.recLeader) {
         this.$Message.error('请选择推荐leader')
         this.btnDisabled = false
+        return
+      }
+      let set = new Set()
+      for (let broker of this.multipleSelection) {
+        set.add(broker.node)
+      }
+      if (set.size < this.multipleSelection.length) {
+        this.$Message.error('选择的Broker云主机不能重复')
         return
       }
       let _this = this

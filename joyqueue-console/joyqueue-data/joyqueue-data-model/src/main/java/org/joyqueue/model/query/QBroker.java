@@ -44,6 +44,8 @@ public class QBroker implements Query {
 
     private List<Integer> inBrokerIds;
 
+    private String externalIp;
+
     public String getRetryType() {
         return retryType;
     }
@@ -116,4 +118,11 @@ public class QBroker implements Query {
         this.inBrokerIds = inBrokerIds;
     }
 
+    public String getExternalIp() {
+        return externalIp;
+    }
+
+    public void setExternalIp(String externalIp) {
+        this.externalIp = externalIp;
+    }
 }

@@ -47,8 +47,8 @@ public class HttpUtil {
     protected static final int DEFAULT_HTTP_CONN_MAX_TOTAL = 20;   // 连接池最大连接数
     protected static final int DEFAULT_HTTP_CONN_MAX_PER_ROUTE = 10; // 连接池每个路由最大连接数
     protected static final int DEFAULT_HTTP_CONN_TIMEOUT = 5 * 1000; // 创建连接超时
-    protected static final int DEFAULT_HTTP_CONN_REQUEST_TIMEOUT = 10 * 1000; // 请求数据超时
-    protected static final int DEFAULT_HTTP_CONN_SOCKET_TIMEOUT = 10 * 1000; // 从连接池获取连接超时
+    protected static final int DEFAULT_HTTP_CONN_REQUEST_TIMEOUT = 10 * 1000; // 从连接池获取连接超时
+    protected static final int DEFAULT_HTTP_CONN_SOCKET_TIMEOUT = 10 * 1000; // 请求数据超时
     protected static final int IDLE_CONN_MONITOR_WAIT_TIME = 30 * 1000; // 定时清理连接池空闲连接频率
 
     /**

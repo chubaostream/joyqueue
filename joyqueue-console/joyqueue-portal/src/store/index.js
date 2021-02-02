@@ -139,15 +139,26 @@ const mutations = {
 const actions = {
   getUserInfo ({commit, state}) {
     return new Promise((resolve, reject) => {
-      // commit('setLoginUser', {loginUserName: 'test', loginUserRole: 1})
       apiRequest.get(apiUrl.userInfo).then(function (data) {
         if (data && data.data) {
           commit('setLoginUser', {loginUserName: data.data.code, loginUserRole: data.data.role})
           resolve({loginUserName: data.data.code, loginUserRole: data.data.role})
         }
-      }, function () {
-
-      })
+      }, function () {})
+    })
+  },
+  clearUserInfo ({commit, state}) {
+    return new Promise((resolve, reject) => {
+      commit('setLoginUser', {loginUserName: '', loginUserRole: ''})
+      resolve({loginUserName: '', loginUserRole: ''})
+    })
+  },
+  reloadUserInfo ({commit, state}) {
+    return new Promise((resolve, reject) => {
+      let username = sessionStorage.getItem('username')
+      let role = parseInt(sessionStorage.getItem('role'))
+      commit('setLoginUser', {loginUserName: username, loginUserRole: role})
+      resolve({loginUserName: username, loginUserRole: role})
     })
   }
 }

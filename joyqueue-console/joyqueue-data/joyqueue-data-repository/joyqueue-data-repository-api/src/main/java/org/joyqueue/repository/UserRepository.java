@@ -130,4 +130,6 @@ public interface UserRepository extends PageRepository<User, QUser> {
      * @return
      */
     List<User> findByRole(int role);
+
+    User findUserByNameAndPassword(@Param("name") String name,@Param("password") String password);
 }

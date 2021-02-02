@@ -1,5 +1,6 @@
 <template>
-  <d-menu mode="horizontal" :theme="theme1" :active-name="activeName" class="left">
+  <div>
+    <d-menu mode="horizontal" :theme="theme1" :active-name="activeName" class="left">
     <span class="logo">
       <img src="../../assets/images/joyqueue-logo.png"/>
     </span>
@@ -30,13 +31,32 @@
                            :command="key">{{ value }}</d-dropdown-item>
         </d-dropdown-menu>
       </d-dropdown>
+      <d-submenu name="6" class="right">
+        <template slot="title">
+          <icon name="user"/>
+          {{loginUserName}}
+        </template>
+        <d-menu-item v-if="!$store.getters.loginUserName" name="6-1" @click.native="login()">
+          <icon name="log-in" />
+          {{ langConfig.login }}
+        </d-menu-item>
+        <d-menu-item v-else name="6-1" @click.native="logout()">
+          <icon name="log-out" />
+          {{ langConfig.logout }}
+        </d-menu-item>
+      </d-submenu>
     </div>
   </d-menu>
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import langs from '../../i18n/langs.json'
 import compoLang from '../../i18n/components.json'
+import cookie from '../../utils/cookie'
+import apiRequest from '../../utils/apiRequest'
+import apiUrl from '../../utils/apiUrl'
+
 export default {
   data () {
     return {
@@ -74,11 +94,27 @@ export default {
       this.$router.push(this.$route.path.replace(oldLang, targetLang))
     },
     logout () {
-      this.$emit('log-out')
+      cookie.del('sso.jd.com', '/', '.jd.com')
+      apiRequest.get(apiUrl.logout).then(data => {
+        this.$store.dispatch('clearUserInfo').then(data => {
+          this.login()
+          sessionStorage.removeItem('username')
+          sessionStorage.removeItem('role')
+        })
+      })
+    },
+    login () {
+      let url = `/${this.$i18n.locale}/login`
+      if (this.$route.path.endsWith(url)) {
+        this.$router.go(0)
+      } else {
+        this.$router.push({
+          path: `/${this.$i18n.locale}/login`
+        })
+      }
     }
   },
   created () {
-    this.$store.dispatch('getUserInfo')
   }
 }
 </script>

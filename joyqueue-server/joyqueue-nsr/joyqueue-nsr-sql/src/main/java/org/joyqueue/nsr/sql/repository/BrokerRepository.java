@@ -32,15 +32,15 @@ import java.util.List;
 public class BrokerRepository {
 
     private static final String TABLE = "`broker`";
-    private static final String COLUMNS = "`id`, `ip`, `port`, `data_center`, `retry_type`, `permission`";
-    private static final String UPDATE_COLUMNS = "`ip` = ?, `port` = ?, `data_center` = ?, `retry_type` = ?, `permission` = ?";
+    private static final String COLUMNS = "`id`, `ip`, `port`, `data_center`, `retry_type`, `permission`, `external_ip`, `external_port`, `node`";
+    private static final String UPDATE_COLUMNS = "`ip` = ?, `port` = ?, `data_center` = ?, `retry_type` = ?, `permission` = ?, `external_ip` = ?, `external_port` = ?, `node` = ? ";
 
     private static final String GET_BY_ID = String.format("SELECT %s FROM %s WHERE `id` = ?", COLUMNS, TABLE);
     private static final String GET_BY_IP_AND_PORT = String.format("SELECT %s FROM %s WHERE `ip` = ? AND `port` = ? ORDER BY `ip`", COLUMNS, TABLE);
     private static final String GET_BY_RETRY_TYPE = String.format("SELECT %s FROM %s WHERE `retry_type` = ? ORDER BY `ip`", COLUMNS, TABLE);
     private static final String GET_BY_IDS = String.format("SELECT %s FROM %s WHERE `id` in ", COLUMNS, TABLE);
     private static final String GET_ALL = String.format("SELECT %s FROM %s ORDER BY `ip`", COLUMNS, TABLE);
-    private static final String ADD = String.format("INSERT INTO %s(%s) VALUES(?,?,?,?,?,?)", TABLE, COLUMNS);
+    private static final String ADD = String.format("INSERT INTO %s(%s) VALUES(?,?,?,?,?,?,?,?,?)", TABLE, COLUMNS);
     private static final String UPDATE_BY_ID = String.format("UPDATE %s SET %s WHERE `id` = ?", TABLE, UPDATE_COLUMNS);
     private static final String DELETE_BY_ID = String.format("DELETE FROM %s WHERE `id` = ?", TABLE);
 
@@ -131,13 +131,15 @@ public class BrokerRepository {
 
     public BrokerDTO add(BrokerDTO brokerDTO) {
         baseRepository.insert(ADD, brokerDTO.getId(), brokerDTO.getIp(), brokerDTO.getPort(), brokerDTO.getDataCenter(),
-                brokerDTO.getRetryType(), brokerDTO.getPermission());
+                brokerDTO.getRetryType(), brokerDTO.getPermission(), brokerDTO.getExternalIp(),
+                brokerDTO.getExternalPort(), brokerDTO.getNode());
         return brokerDTO;
     }
 
     public BrokerDTO update(BrokerDTO brokerDTO) {
         baseRepository.update(UPDATE_BY_ID, brokerDTO.getIp(), brokerDTO.getPort(), brokerDTO.getDataCenter(),
-                brokerDTO.getRetryType(), brokerDTO.getPermission(), brokerDTO.getId());
+                brokerDTO.getRetryType(), brokerDTO.getPermission(), brokerDTO.getExternalIp(),
+                brokerDTO.getExternalPort(), brokerDTO.getNode(), brokerDTO.getId());
         return brokerDTO;
     }
 

@@ -129,6 +129,60 @@ export default {
         this.onBrokerLoadComplete(this.tableData.rowData)
       })
     },
+    getBrokerByQueryGroup (brokerGroupId, brokerGroup) {
+      let query = {}
+      if (!brokerGroupId) {
+        query = {
+          keyword: this.searchData.keyword
+        }
+      } else {
+        this.searchData.brokerGroupId = brokerGroupId
+        query = {
+          keyword: this.searchData.keyword,
+          brokerGroupId: this.searchData.brokerGroupId
+        }
+        if (brokerGroup.length > 0) {
+          query.group = {
+            id: brokerGroup[0].id,
+            code: brokerGroup[0].code,
+            name: brokerGroup[0].name
+          }
+        }
+      }
+
+      let data = {
+        pagination: {
+          page: this.page.page,
+          size: this.page.size
+        },
+        query: query
+      }
+      apiRequest.post(this.urls.search, {}, data).then((data) => {
+        if (data === '') {
+          return
+        }
+        data.data = data.data || []
+        data.pagination = data.pagination || {
+          totalRecord: data.data.length
+        }
+        this.page.total = data.pagination.totalRecord
+        this.page.page = data.pagination.page
+        this.page.size = data.pagination.size
+        this.tableData.rowData = data.data
+        this.tableData.rowData.forEach(element => {
+          element['isChecked'] = false
+          if (brokers && brokers.length > 0) {
+            for (let broker of brokers) {
+              if (broker.id === element.id) {
+                element['isChecked'] = true
+                break
+              }
+            }
+          }
+        })
+        this.onBrokerLoadComplete(this.tableData.rowData)
+      })
+    },
     getBrokerStatus (rowData, i) {
       apiRequest.get(this.startInfo + '/' + rowData[i].id).then((data) => {
         if (data.code === 200) {

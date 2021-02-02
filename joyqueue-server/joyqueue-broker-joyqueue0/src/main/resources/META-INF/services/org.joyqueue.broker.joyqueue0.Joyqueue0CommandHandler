@@ -1,0 +1,16 @@
+org.joyqueue.broker.joyqueue0.handler.ConnectionHandler
+org.joyqueue.broker.joyqueue0.handler.ProducerHandler
+org.joyqueue.broker.joyqueue0.handler.ConsumerHandler
+org.joyqueue.broker.joyqueue0.handler.ClusterHandler
+org.joyqueue.broker.joyqueue0.handler.PutMessageHandler
+org.joyqueue.broker.joyqueue0.handler.GetMessageHandler
+org.joyqueue.broker.joyqueue0.handler.AckMessageHandler
+org.joyqueue.broker.joyqueue0.handler.ResetConsumeHandler
+org.joyqueue.broker.joyqueue0.handler.HeartbeatHandler
+org.joyqueue.broker.joyqueue0.handler.TransactionHandler
+org.joyqueue.broker.joyqueue0.handler.RetryMessageHandler
+org.joyqueue.broker.joyqueue0.handler.ClientProfileHandler
+org.joyqueue.broker.joyqueue0.handler.SubscribeHandler
+org.joyqueue.broker.joyqueue0.handler.UnSubscribeHandler
+org.joyqueue.broker.joyqueue0.handler.GetTopicsHandler
+org.joyqueue.broker.joyqueue0.handler.AuthorizeHandler

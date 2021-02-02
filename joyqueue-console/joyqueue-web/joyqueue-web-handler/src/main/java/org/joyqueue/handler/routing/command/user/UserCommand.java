@@ -15,6 +15,7 @@
  */
 package org.joyqueue.handler.routing.command.user;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.joyqueue.handler.annotation.PageQuery;
 import org.joyqueue.handler.error.ConfigException;
 import org.joyqueue.handler.error.ErrorCode;
@@ -24,6 +25,7 @@ import org.joyqueue.model.QPageQuery;
 import org.joyqueue.model.domain.Identity;
 import org.joyqueue.model.domain.User;
 import org.joyqueue.model.query.QUser;
+import org.joyqueue.service.ApplicationUserService;
 import org.joyqueue.service.UserService;
 import com.jd.laf.binding.annotation.Value;
 import com.jd.laf.web.vertx.annotation.Body;
@@ -31,20 +33,29 @@ import com.jd.laf.web.vertx.annotation.Path;
 import com.jd.laf.web.vertx.annotation.QueryParam;
 import com.jd.laf.web.vertx.response.Response;
 import com.jd.laf.web.vertx.response.Responses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author wylixiaobin
  * Date: 2018/10/17
  */
 public class UserCommand extends CommandSupport<User, UserService, QUser> {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserCommand.class);
+
     @Value(Constants.USER_KEY)
     protected User operator;
+
+    @Value
+    private ApplicationUserService applicationUserService;
 
     @Override
     @Path("add")
     public Response add(@Body User model) throws Exception {
         model.setCreateBy(new Identity(-1L));
         model.setUpdateBy(new Identity(-1L));
+        model.setPassword(RandomStringUtils.randomAlphanumeric(10));
         super.add(model);
         return Responses.success(model);
     }
@@ -77,5 +88,13 @@ public class UserCommand extends CommandSupport<User, UserService, QUser> {
         return Responses.success(service.findByRole(role));
     }
 
+    @Path("delete")
+    public Response deleteById(@QueryParam(Constants.ID) long id) {
+        int delete = applicationUserService.deleteAppUserByUserId(id);
+        if (delete > 0) {
+            logger.info("删除用户:{}与{}个应用之间的对应关系",id, delete);
+        }
+        return Responses.success(service.deleteById(id));
+    }
 
 }

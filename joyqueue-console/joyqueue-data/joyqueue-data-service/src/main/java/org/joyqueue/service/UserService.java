@@ -134,4 +134,6 @@ public interface UserService extends PageService<User, QUser> {
      **/
     List<User> findByRole(int role);
 
+    User findUserByNameAndPassword(String name, String password);
+
 }

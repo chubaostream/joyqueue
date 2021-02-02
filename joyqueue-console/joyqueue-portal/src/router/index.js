@@ -122,6 +122,10 @@ routes = routes.concat([{
   path: '*',
   redirect: '/error',
   hidden: true
+}, {
+  path: '/login',
+  name: 'login',
+  redirect: {name: `/${i18n.locale}/login`}
 }])
 
 const router = new Router({
@@ -139,38 +143,30 @@ const router = new Router({
 // ------- 通过JSON配置动态生成路由 End ------- //
 
 const whiteList = ['/noPermission']
-const goNext = function (to, from, next, role) {
-  if (to.meta.admin && role !== 'admin') {
-    next({path: '/noPermission'})
-  } else {
-    next()
-  }
-}
 
 router.beforeEach((to, from, next) => {
   if (whiteList.indexOf(to.path) !== -1) {
     next()
   } else {
-    let loginUserName = store.getters.loginUserName
-    let loginUserRole = store.getters.loginUserRole
-    try {
-      if (!loginUserName) { // 先判断是否已登录
-        store.dispatch('getUserInfo').then(data => {
-          loginUserName = store.getters.loginUserName
-          loginUserRole = store.getters.loginUserRole
-
-          if (loginUserName) { // 其次判断是否有权访问
-            goNext(to, from, next, loginUserRole)
-          } else {
-            location.href = 'https://ssa.jd.com/sso/login?ReturnUrl' + window.location.href
-          }
+    store.dispatch('reloadUserInfo').then(data => {
+      let loginUserName = store.getters.loginUserName
+      try {
+        let url = to.path
+        if (url.endsWith('/login')) {
+          next()
+        } else if (!loginUserName && !url.endsWith('/login')) {
+          next({
+            path: '/login'
+          })
+        } else {
+          next()
+        }
+      } catch (err) {
+        next({
+          path: '/login'
         })
-      } else {
-        goNext(to, from, next, loginUserRole)
       }
-    } catch (err) {
-      location.href = 'https://ssa.jd.com/sso/login?ReturnUrl' + window.location.href
-    }
+    })
   }
 })
 

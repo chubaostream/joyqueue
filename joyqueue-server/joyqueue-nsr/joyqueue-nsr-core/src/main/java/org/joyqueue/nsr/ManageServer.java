@@ -127,7 +127,7 @@ public class ManageServer extends Service {
                         .putHeader(CONTENT_TYPE, APPLICATION_JSON)
                         .end(JSON.toJSONString(topicService.getTopicByCode(topicQuery.getNamespace(), topicQuery.getCode())));
             }catch (Exception e){
-                logger.error("topic add errpr,request[{}]",routingContext.getBodyAsString(),e);
+                logger.error("topic add error,request[{}]",routingContext.getBodyAsString(),e);
                 routingContext.fail(e);
             }
         });
@@ -139,7 +139,7 @@ public class ManageServer extends Service {
                 .putHeader(CONTENT_TYPE, APPLICATION_JSON)
                         .end(JSON.toJSONString(topic));
             }catch (Exception e){
-                logger.error("topic add errpr,request[{}]",routingContext.getBodyAsString(),e);
+                logger.error("topic add error,request[{}]",routingContext.getBodyAsString(),e);
                 routingContext.fail(e);
             }
         });
@@ -151,7 +151,7 @@ public class ManageServer extends Service {
                         .putHeader(CONTENT_TYPE, APPLICATION_JSON)
                         .end(JSON.toJSONString(pageResult));
             }catch (Exception e){
-                logger.error("topic findByQuery errpr,request[{}]",routingContext.getBodyAsString(),e);
+                logger.error("topic findByQuery error,request[{}]",routingContext.getBodyAsString(),e);
                 routingContext.fail(e);
             }
         });
@@ -163,7 +163,7 @@ public class ManageServer extends Service {
                         .putHeader(CONTENT_TYPE, APPLICATION_JSON)
                         .end(JSON.toJSONString(pageResult));
             }catch (Exception e){
-                logger.error("topic findByQuery errpr,request[{}]",routingContext.getBodyAsString(),e);
+                logger.error("topic findByQuery error,request[{}]",routingContext.getBodyAsString(),e);
                 routingContext.fail(e);
             }
         });
@@ -176,7 +176,7 @@ public class ManageServer extends Service {
                 topicService.addTopic(topic, list);
                 routingContext.response().end("success");
             }catch (Exception e){
-                logger.error("topic add errpr,request[{}]",routingContext.getBodyAsString(),e);
+                logger.error("topic add error,request[{}]",routingContext.getBodyAsString(),e);
                 routingContext.fail(e);
             }
         });
@@ -185,7 +185,7 @@ public class ManageServer extends Service {
                 topicService.removeTopic(JSONObject.parseObject(routingContext.getBodyAsString(), Topic.class));
                 routingContext.response().end("success");
             }catch (Exception e){
-                logger.error("topic remove errpr,request[{}]",routingContext.getBodyAsString(),e);
+                logger.error("topic remove error,request[{}]",routingContext.getBodyAsString(),e);
                 routingContext.fail(e);
             }
         });
@@ -194,7 +194,7 @@ public class ManageServer extends Service {
                 topicService.update(JSONObject.parseObject(routingContext.getBodyAsString(), Topic.class));
                 routingContext.response().end("success");
             }catch (Exception e){
-                logger.error("topic update errpr,request[{}]",routingContext.getBodyAsString(),e);
+                logger.error("topic update error,request[{}]",routingContext.getBodyAsString(),e);
                 routingContext.fail(e);
             }
         });
@@ -203,7 +203,7 @@ public class ManageServer extends Service {
                 topicService.addPartitionGroup(JSONObject.parseObject(routingContext.getBodyAsString(), PartitionGroup.class));
                 routingContext.response().end("success");
             }catch (Exception e){
-                logger.error("topic addPartitionGroup errpr,request[{}]",routingContext.getBodyAsString(),e);
+                logger.error("topic addPartitionGroup error,request[{}]",routingContext.getBodyAsString(),e);
                 routingContext.fail(e);
             }
         });
@@ -212,7 +212,7 @@ public class ManageServer extends Service {
             topicService.removePartitionGroup(JSONObject.parseObject(routingContext.getBodyAsString(), PartitionGroup.class));
             routingContext.response().end("success");
             }catch (Exception e){
-                logger.error("topic removePartitionGroup errpr,request[{}]",routingContext.getBodyAsString(),e);
+                logger.error("topic removePartitionGroup error,request[{}]",routingContext.getBodyAsString(),e);
                 routingContext.fail(e);
             }
         });
@@ -514,7 +514,20 @@ public class ManageServer extends Service {
                 routingContext.fail(e);
             }
         });
-
+        router.post("/broker/updateExternalIpByIp").handler(routingContext -> {
+            try {
+                BrokerQuery query = JSONObject.parseObject(routingContext.getBodyAsString(), new TypeReference<BrokerQuery>(){});
+                Broker broker = brokerService.getByIpAndPort(query.getIp(), query.getPort());
+                broker.setExternalIp(query.getExternalIp());
+                broker.setExternalPort(query.getExternalPort());
+                broker.setNode(query.getNode());
+                brokerService.update(broker);
+                routingContext.response().end("success");
+            }catch (Exception e){
+                logger.error("broker updateExternalIpByIp error", routingContext.getBodyAsString(),e);
+                routingContext.fail(e);
+            }
+        });
         /**   apptoken    **/
         router.post("/apptoken/getById").handler(routingContext -> {
             try{

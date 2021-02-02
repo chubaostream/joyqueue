@@ -118,8 +118,8 @@ public class BrokerMessageServiceImpl implements BrokerMessageService {
         Map<String/*request key*/, String/*response*/> resultMap= brokerClusterQuery.get(resultFuture,TIMEOUT,TimeUnit.MILLISECONDS);
         SimplifiedBrokeMessage message;
         RestResponse<List<BrokerMessageInfo>> brokerMessageResponse;
-        JavaType messagesListType=mapper.getTypeFactory().constructParametricType(List.class, BrokerMessageInfo.class);
-        JavaType restListBrokerMessageType=mapper.getTypeFactory().constructParametricType(RestResponse.class, messagesListType);
+        JavaType messagesListType = mapper.getTypeFactory().constructParametricType(List.class, BrokerMessageInfo.class);
+        JavaType restListBrokerMessageType = mapper.getTypeFactory().constructParametricType(RestResponse.class, messagesListType);
         try {
             for (Map.Entry<String, String> response : resultMap.entrySet()) {
                 brokerMessageResponse = mapper.readValue(response.getValue(), restListBrokerMessageType);

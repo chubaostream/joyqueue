@@ -38,6 +38,7 @@ import org.joyqueue.nsr.exception.NsrException;
 import org.joyqueue.nsr.nameservice.CompensatedNameService;
 import org.joyqueue.toolkit.concurrent.EventListener;
 import org.joyqueue.toolkit.config.PropertySupplier;
+import org.joyqueue.toolkit.network.IpUtil;
 import org.junit.Assert;
 import org.junit.Before;
 
@@ -73,7 +74,7 @@ public class CompensatedNameServiceTest {
         nameServiceStub.subscribe(new Subscription(TopicName.parse("test_topic"), "test_app", Subscription.Type.PRODUCTION), ClientType.JOYQUEUE);
         nameServiceStub.subscribe(new Subscription(TopicName.parse("test_topic"), "test_app", Subscription.Type.CONSUMPTION), ClientType.JOYQUEUE);
         compensatedNameService.setSupplier(propertySupplier);
-        compensatedNameService.register(1, "127.0.0.1", 50088);
+        compensatedNameService.register(1, "127.0.0.1",  "127.0.0.1",50088, IpUtil.getNode());
         compensatedNameService.start();
     }
 
@@ -247,12 +248,15 @@ public class CompensatedNameServiceTest {
         }
 
         @Override
-        public Broker register(Integer brokerId, String brokerIp, Integer port) {
+        public Broker register(Integer brokerId, String brokerHost, String brokerIp, Integer port, String node) {
             check();
             Broker broker = new Broker();
             broker.setId(brokerId);
-            broker.setIp(brokerIp);
+            broker.setIp(brokerHost);
+            broker.setExternalIp(brokerIp);
             broker.setPort(port);
+            broker.setExternalPort(port);
+            broker.setNode(node);
             allMetadata.getBrokers().put(brokerId, broker);
             return broker;
         }

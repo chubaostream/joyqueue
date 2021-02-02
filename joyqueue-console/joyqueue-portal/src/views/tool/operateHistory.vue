@@ -113,11 +113,7 @@ export default {
             key: 'createBy.code',
             width: '10%',
             render: (h, params) => {
-              if (params.item.createBy.code === 'admin') {
-                return h('label', {}, '-')
-              } else {
-                return h('label', {}, params.item.createBy.code)
-              }
+              return h('label', {}, params.item.createBy.code)
             }
           },
           {

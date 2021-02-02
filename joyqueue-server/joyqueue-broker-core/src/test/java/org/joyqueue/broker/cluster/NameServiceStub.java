@@ -162,11 +162,14 @@ public class NameServiceStub extends Service implements NameService {
     }
 
     @Override
-    public Broker register(Integer brokerId, String brokerIp, Integer port) {
+    public Broker register(Integer brokerId, String brokerHost, String brokerIp, Integer port, String node) {
         Broker broker = new Broker();
         broker.setId(brokerId);
         broker.setIp(brokerIp);
+        broker.setExternalIp(brokerIp);
         broker.setPort(port);
+        broker.setExternalPort(port);
+        broker.setNode(node);
         allMetadata.getBrokers().put(brokerId, broker);
         return broker;
     }

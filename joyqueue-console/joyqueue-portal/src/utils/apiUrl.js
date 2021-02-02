@@ -1,7 +1,7 @@
 // url统一存放
 export default {
   userInfo: '/login/user', // 用户信息
-  logout: '/logout', // 用户信息
+  logout: '/user/logout', // 用户信息
   '/application': {
     search: '/application/search',
     add: '/application/add',
@@ -25,7 +25,8 @@ export default {
   '/setting/user': {
     search: '/user/search',
     add: '/user/add',
-    edit: '/user/update'
+    edit: '/user/update',
+    del: '/user/delete'
   },
   '/setting/dataCenter': {
     search: '/dataCenter/search',

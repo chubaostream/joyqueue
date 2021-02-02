@@ -119,4 +119,8 @@ public class UserServiceImpl extends PageServiceSupport<User, QUser,UserReposito
         return repository.findByRole(role);
     }
 
+    @Override
+    public User findUserByNameAndPassword(String name, String password) {
+        return repository.findUserByNameAndPassword(name, password);
+    }
 }

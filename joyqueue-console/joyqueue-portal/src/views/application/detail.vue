@@ -26,6 +26,9 @@
       <d-tab-pane label="消费者" name="consumer" icon="user-minus" :closable="false">
         <consumer ref="consumer" :search="search" @on-detail="openConsumerDetailTab"/>
       </d-tab-pane>
+      <d-tab-pane label="用户" name="myAppUsers" icon="users" :closable="false">
+        <my-app-users ref="myAppUsers"/>
+      </d-tab-pane>
       <d-tab-pane label="令牌" name="myAppToken" icon="feather" :closable="false">
         <my-app-token ref="myAppToken"/>
       </d-tab-pane>

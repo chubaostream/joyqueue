@@ -449,7 +449,8 @@ public class PositioningStore<T /* 保存的数据类型 */> implements Closeabl
     }
 
     public boolean isDiskFull() {
-        return (base.getTotalSpace() - base.getFreeSpace()) * 100 >  base.getTotalSpace() * diskFullRatio;
+//        return (base.getTotalSpace() - base.getFreeSpace()) * 100 >  base.getTotalSpace() * diskFullRatio;
+        return false;
     }
 
     public T read(long position) throws IOException {

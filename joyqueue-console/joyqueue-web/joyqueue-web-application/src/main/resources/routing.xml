@@ -5,16 +5,22 @@
 
         <route name="put" type="PUT" route="true"
                consumers="application/json;charset=UTF-8" produces="application/json;charset=UTF-8"
-               handlers="cookie session body AdminLogin getLoginUser"/>
+               handlers="cookie session body UserLogin getLoginUser"/>
         <route name="post" type="POST" route="true"
                consumers="application/json;charset=UTF-8" produces="application/json;charset=UTF-8"
-               handlers="cookie session body AdminLogin getLoginUser"/>
+               handlers="cookie session body UserLogin getLoginUser"/>
         <route name="get" type="GET" route="true"
                consumers="application/json;charset=UTF-8" produces="application/json;charset=UTF-8"
-               handlers="cookie session AdminLogin getLoginUser"/>
+               handlers="cookie session UserLogin getLoginUser"/>
         <route name="delete" type="DELETE" route="true"
                consumers="application/json;charset=UTF-8" produces="application/json;charset=UTF-8"
-               handlers="cookie session AdminLogin getLoginUser"/>
+               handlers="cookie session UserLogin getLoginUser"/>
+        <route inherit="post"
+               path="/v1/user/login" handlers="UserLogin render"
+               errors="error"/>
+        <route inherit="get"
+               path="/v1/user/logout" handlers="UserLogout render"
+               errors="error"/>
 
         <route name="grafanaPost" type="POST" route="true"
                consumers="application/json;charset=UTF-8" produces="application/json;charset=UTF-8"
@@ -311,8 +317,8 @@
         <route inherit="put"
                path="/v1/producer/update/:id" handlers="producer#update render"
                errors="error"/>
-        <route inherit="delete"
-               path="/v1/producer/delete/:id" handlers="producer#delete render"
+        <route inherit="post"
+               path="/v1/producer/delete" handlers="producer#delete render"
                errors="error"/>
         <route inherit="post"
                path="/v1/producer/query-by-topic" handlers="producer#query-by-topic render"

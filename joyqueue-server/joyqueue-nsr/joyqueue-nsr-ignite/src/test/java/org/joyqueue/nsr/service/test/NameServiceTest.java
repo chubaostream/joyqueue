@@ -201,7 +201,7 @@ public class NameServiceTest {
 
     @Test
     public void register() {
-        Broker broker = nameService.register(null, IpUtil.getLocalIp(), 50088);
+        Broker broker = nameService.register(null, IpUtil.getLocalIp(), IpUtil.getDefaultLocalHost(), 50088, IpUtil.getNode());
         System.out.println(broker);
     }
 

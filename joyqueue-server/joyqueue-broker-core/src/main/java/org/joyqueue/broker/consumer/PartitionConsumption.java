@@ -26,6 +26,7 @@ import org.joyqueue.broker.cluster.ClusterManager;
 import org.joyqueue.broker.consumer.filter.FilterCallback;
 import org.joyqueue.broker.consumer.model.PullResult;
 import org.joyqueue.broker.consumer.position.PositionManager;
+import org.joyqueue.broker.monitor.BrokerMonitor;
 import org.joyqueue.domain.Partition;
 import org.joyqueue.domain.TopicName;
 import org.joyqueue.exception.JoyQueueCode;
@@ -35,11 +36,7 @@ import org.joyqueue.network.session.Connection;
 import org.joyqueue.network.session.Consumer;
 import org.joyqueue.server.retry.api.MessageRetry;
 import org.joyqueue.server.retry.model.RetryMessageModel;
-import org.joyqueue.store.PartitionGroupStore;
-import org.joyqueue.store.PositionOverflowException;
-import org.joyqueue.store.PositionUnderflowException;
-import org.joyqueue.store.ReadResult;
-import org.joyqueue.store.StoreService;
+import org.joyqueue.store.*;
 import org.joyqueue.toolkit.network.IpUtil;
 import org.joyqueue.toolkit.service.Service;
 import org.slf4j.Logger;
@@ -78,12 +75,15 @@ class PartitionConsumption extends Service {
     // 消费归档
     private ArchiveManager archiveManager;
     private ConsumeConfig config;
+    // 监控
+    private BrokerMonitor brokerMonitor;
     // 性能监控key
     private String monitorKey = "Read-Message";
 
     PartitionConsumption(ClusterManager clusterManager, StoreService storeService, PartitionManager partitionManager,
                                 PositionManager positionManager, MessageRetry messageRetry,
-                                FilterMessageSupport filterMessageSupport, ArchiveManager archiveManager, ConsumeConfig config) {
+                                FilterMessageSupport filterMessageSupport, ArchiveManager archiveManager,
+                                ConsumeConfig config, BrokerMonitor brokerMonitor) {
         this.clusterManager = clusterManager;
         this.storeService = storeService;
         this.partitionManager = partitionManager;
@@ -92,6 +92,7 @@ class PartitionConsumption extends Service {
         this.filterMessageSupport = filterMessageSupport;
         this.archiveManager = archiveManager;
         this.config = config;
+        this.brokerMonitor = brokerMonitor;
     }
 
     @Override
@@ -212,6 +213,15 @@ class PartitionConsumption extends Service {
     protected PullResult getMsgByPartitionAndIndex(Consumer consumer, int group, short partition, long index, int count) throws JoyQueueException, IOException {
         PullResult pullResult = new PullResult(consumer, (short) -1, new ArrayList<>(0));
         try {
+            // 判断index是否小于最小索引minIndex，且强制删除是否开启
+            // 如果满足，应该是消息被强制清除导致，设置index为minIndex，并监控计数
+            PartitionGroupStore store = storeService.getStore(consumer.getTopic(), group);
+            long minIndex = store.getLeftIndex(partition);
+            if (index < minIndex && !config.keepUnconsumed(consumer.getTopic())) {
+                brokerMonitor.onOffsetReset(consumer.getTopic(), consumer.getApp(), 1);
+                index = minIndex;
+            }
+            // 拉取消息
             PullResult readResult = getMsgByPartitionAndIndex(consumer.getTopic(), group, partition, index, count);
             if (readResult.getBuffers() == null) {
                 // 没有拉到消息直接返回
@@ -253,7 +263,6 @@ class PartitionConsumption extends Service {
         PartitionGroupStore store = storeService.getStore(topic, group);
 
         ReadResult readRst = store.read(partition, index, count, Long.MAX_VALUE);
-
         if (readRst.getCode() == JoyQueueCode.SUCCESS) {
             result.setBuffers(Lists.newArrayList(readRst.getMessages()));
             return result;
@@ -305,9 +314,9 @@ class PartitionConsumption extends Service {
             }
             int partitionGroup = clusterManager.getPartitionGroupId(TopicName.parse(consumer.getTopic()), partition);
             long index = positionManager.getLastMsgAckIndex(TopicName.parse(consumer.getTopic()), consumer.getApp(), partition);
+
             try {
                 ByteBuffer[] byteBuffers = readMessages(consumer, partitionGroup, partition, index, count);
-
 
                 if (byteBuffers == null) {
                     // 如果没有拿到消息，则释放占用
@@ -400,6 +409,14 @@ class PartitionConsumption extends Service {
      */
     private ByteBuffer[] readMessages(Consumer consumer, int partitionGroup, short partition, long index, int count) throws IOException {
         PartitionGroupStore store = storeService.getStore(consumer.getTopic(), partitionGroup);
+        long minIndex = store.getLeftIndex(partition);
+        // 判断index是否小于最小索引minIndex，且强制删除是否开启
+        // 如果满足，应该是消息被强制清除导致，设置index为minIndex，并监控计数
+        if (index < minIndex && !config.keepUnconsumed(consumer.getTopic())) {
+            brokerMonitor.onOffsetReset(consumer.getTopic(), consumer.getApp(), 1);
+            index = minIndex;
+        }
+
         if (index < store.getLeftIndex(partition) || index >= store.getRightIndex(partition)) {
             return null;
         }

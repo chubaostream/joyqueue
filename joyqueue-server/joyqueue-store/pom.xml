@@ -20,7 +20,7 @@
     <parent>
         <artifactId>joyqueue-server</artifactId>
         <groupId>org.joyqueue</groupId>
-        <version>4.2.8-SNAPSHOT</version>
+        <version>4.2.7.TPAAS</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>JoyQueue-Store</name>

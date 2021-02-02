@@ -74,6 +74,10 @@
         DELETE FROM application_user WHERE id=#{id}
     </delete>
 
+    <delete id="deleteAppUserByUserId" parameterType="long">
+        DELETE FROM application_user WHERE user_id = #{userId}
+    </delete>
+
     <delete id="deleteByAppId" parameterType="long">
         DELETE FROM application_user WHERE app_id=#{appId}
     </delete>

@@ -16,6 +16,7 @@
 package org.joyqueue.domain;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.joyqueue.helper.PortHelper;
 
 import javax.validation.constraints.Max;
@@ -55,13 +56,27 @@ public class Broker implements Serializable {
      * 重试类型
      */
     protected String retryType = DEFAULT_RETRY_TYPE;
-
     /**
      * 权限
      * default FULL
      */
-
     protected PermissionEnum permission = PermissionEnum.FULL;
+
+    /**
+     * 对外IP,备用
+     */
+    protected String externalIp;
+
+    /**
+     * 对外Port，备用
+     */
+    protected Integer externalPort;
+
+    /**
+     * 宿主机
+     */
+    protected String node;
+
 
     public Integer getId() {
         return id;
@@ -227,5 +242,44 @@ public class Broker implements Serializable {
                 ", permission=" + permission +
                 '}';
     }
+
+    public String getExternalIp() {
+        return externalIp;
+    }
+
+    public void setExternalIp(String externalIp) {
+        this.externalIp = externalIp;
+    }
+
+    public Integer getExternalPort() {
+        return externalPort;
+    }
+
+    public void setExternalPort(Integer externalPort) {
+        this.externalPort = externalPort;
+    }
+
+    public String getRealIp() {
+        if (StringUtils.isNotBlank(externalIp)) {
+            return externalIp;
+        }
+        return ip;
+    }
+
+    public int getRealPort() {
+        if (externalPort != null && externalPort.intValue() > 0) {
+            return externalPort;
+        }
+        return port;
+    }
+
+    public String getNode() {
+        return node;
+    }
+
+    public void setNode(String node) {
+        this.node = node;
+    }
+
 }
 

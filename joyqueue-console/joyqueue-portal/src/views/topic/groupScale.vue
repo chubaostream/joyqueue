@@ -70,6 +70,11 @@ export default {
             width: '20%'
           },
           {
+            title: '宿主机',
+            key: 'node',
+            width: '20%'
+          },
+          {
             title: '端口',
             key: 'port',
             width: '20%'
@@ -96,7 +101,7 @@ export default {
       }
       let _this = this
       this.$Dialog.confirm({
-        title: '提示',
+        title: '提示：请选择同分组broker',
         content: '确定要扩容吗？'
       }).then(() => {
         apiRequest.post(_this.urls.addUrl, null, parmas).then((data) => {

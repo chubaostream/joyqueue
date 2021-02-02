@@ -32,11 +32,7 @@ import org.joyqueue.broker.consumer.position.model.Position;
 import org.joyqueue.broker.monitor.BrokerMonitor;
 import org.joyqueue.broker.monitor.SessionManager;
 import org.joyqueue.domain.Consumer.ConsumerPolicy;
-import org.joyqueue.domain.Partition;
-import org.joyqueue.domain.PartitionGroup;
-import org.joyqueue.domain.TopicConfig;
-import org.joyqueue.domain.TopicName;
-import org.joyqueue.domain.TopicType;
+import org.joyqueue.domain.*;
 import org.joyqueue.event.EventType;
 import org.joyqueue.event.MetaEvent;
 import org.joyqueue.exception.JoyQueueCode;
@@ -60,12 +56,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -170,7 +161,8 @@ public class ConsumeManager extends Service implements Consume, BrokerContextAwa
                 new LegacyPartitionManager(clusterManager, sessionManager): new CasPartitionManager(clusterManager, sessionManager);
         this.positionManager = new PositionManager(clusterManager, storeService, consumeConfig);
         this.brokerContext.positionManager(positionManager);
-        this.partitionConsumption = new PartitionConsumption(clusterManager, storeService, partitionManager, positionManager, messageRetry, filterMessageSupport, archiveManager, consumeConfig);
+        this.partitionConsumption = new PartitionConsumption(clusterManager, storeService, partitionManager, positionManager,
+                messageRetry, filterMessageSupport, archiveManager, consumeConfig, brokerMonitor);
         this.concurrentConsumption =
                 consumeConfig.useLegacyConcurrentConsumer() ?
                     new ConcurrentConsumption(clusterManager, storeService, partitionManager, messageRetry, positionManager, filterMessageSupport, archiveManager, sessionManager):

@@ -133,7 +133,7 @@ public class ProducerCommand extends NsrCommandSupport<Producer, ProducerService
 
     @Override
     @Path("delete")
-    public Response delete(@QueryParam(Constants.ID) String id) throws Exception {
+    public Response delete(@Body(type = Body.BodyType.TEXT) String id) throws Exception {
         Producer producer = service.findById(id);
         int count = service.delete(producer);
         if (count <= 0) {

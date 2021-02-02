@@ -80,6 +80,7 @@ public class BrokerMonitorSlicer extends Service implements Runnable {
                 AppStat appStat = appEntry.getValue();
                 appStat.getProducerStat().getEnQueueStat().slice();
                 appStat.getConsumerStat().getDeQueueStat().slice();
+                appStat.getConsumerStat().getOffsetResetStat().slice();
 
                 // app slice
                 for (Map.Entry<Integer, PartitionGroupStat> partitionGroupEntry : appStat.getPartitionGroupStatMap().entrySet()) {

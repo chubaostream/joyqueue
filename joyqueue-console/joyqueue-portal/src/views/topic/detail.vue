@@ -36,7 +36,7 @@
       <d-tab-pane label="重试" name="retry" icon="zap" :closable="false" :visible="retryEnabled">
         <retry ref="retry" :search="retrySearch"/>
       </d-tab-pane>
-      <d-tab-pane label="归档" name="archive" icon="package" :closable="false" :visible="archiveEnabled">
+      <d-tab-pane label="归档" name="archive" icon="package" :closable="false">
         <archive ref="archive" :search="archiveSearch"/>
       </d-tab-pane>
       <d-tab-pane :label="producerDetailName" name="producerDetail" icon="paperclip" :visible="producerDetailVisible"
@@ -83,7 +83,7 @@ export default {
         isArchiveEnabled: `/archive/isServerEnabled`,
         isRetryEnabled: `/retry/isServerEnabled`
       },
-      archiveEnabled: false,
+      archiveEnabled: true,
       retryEnabled: true
     }
   },

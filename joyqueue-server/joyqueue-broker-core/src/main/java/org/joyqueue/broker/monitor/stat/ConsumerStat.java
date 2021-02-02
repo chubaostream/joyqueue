@@ -31,6 +31,7 @@ public class ConsumerStat {
     private String app;
     private DeQueueStat deQueueStat = new DeQueueStat();
     private RetryStat retryStat = new RetryStat();
+    private OffsetResetStat offsetResetStat = new OffsetResetStat();
     private ConnectionStat connectionStat = new ConnectionStat();
     private ConcurrentMap<Integer /** partitionGroupId **/, PartitionGroupStat> partitionGroupStatMap = Maps.newConcurrentMap();
 
@@ -52,6 +53,7 @@ public class ConsumerStat {
         deQueueStat = new DeQueueStat();
         retryStat = new RetryStat();
         connectionStat = new ConnectionStat();
+        offsetResetStat = new OffsetResetStat();
         partitionGroupStatMap.clear();
     }
 
@@ -78,4 +80,9 @@ public class ConsumerStat {
     public ConcurrentMap<Integer, PartitionGroupStat> getPartitionGroupStatMap() {
         return partitionGroupStatMap;
     }
+
+    public OffsetResetStat getOffsetResetStat() {
+        return offsetResetStat;
+    }
+    
 }

@@ -331,8 +331,8 @@ public class CompensatedNameService extends Service implements NameService, Prop
     }
 
     @Override
-    public Broker register(Integer brokerId, String brokerIp, Integer port) {
-        Broker broker = delegate.register(brokerId, brokerIp, port);
+    public Broker register(Integer brokerId, String brokerHost, String brokerIp, Integer port, String node) {
+        Broker broker = delegate.register(brokerId, brokerHost, brokerIp, port, node);
         if (broker != null) {
             this.brokerId = broker.getId();
             this.metadataCompensator.setBrokerId(this.brokerId);

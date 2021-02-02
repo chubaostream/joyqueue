@@ -278,6 +278,14 @@ public class BrokerMonitor extends Service implements ConsumerMonitor, ProducerM
     }
 
     @Override
+    public void onOffsetReset(String topic, String app, long count) {
+        if (!config.isEnable()) {
+            return;
+        }
+        getConsumerStat(topic, app).getOffsetResetStat().getCount().mark(count);
+    }
+
+    @Override
     public void addProducer(Producer producer) {
         TopicStat topicStat = brokerStat.getOrCreateTopicStat(producer.getTopic());
         AppStat appStat = topicStat.getOrCreateAppStat(producer.getApp());

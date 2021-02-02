@@ -20,13 +20,13 @@
     <parent>
         <artifactId>joyqueue-datasource</artifactId>
         <groupId>org.joyqueue</groupId>
-        <version>4.2.8-SNAPSHOT</version>
+        <version>4.2.7.TPAAS</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>joyqueue-datasource-hikaricp</artifactId>
-    <name>JoyQueue-DataSource-Hikaricp</name>
-    <description>Hikaricp implementation of the DataSource API</description>
+    <name>JoyQueue-DataSource-HikariCP</name>
+    <description>HikariCP implementation of the DataSource API</description>
 
     <dependencies>
         <dependency>
@@ -36,6 +36,10 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 

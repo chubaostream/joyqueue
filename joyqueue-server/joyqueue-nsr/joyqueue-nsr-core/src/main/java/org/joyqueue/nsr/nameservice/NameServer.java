@@ -265,10 +265,10 @@ public class NameServer extends Service implements NameService, PropertySupplier
     }
 
     @Override
-    public Broker register(Integer brokerId, String brokerIp, Integer port) {
+    public Broker register(Integer brokerId, String brokerHost, String brokerIp, Integer port, String node) {
         TraceStat trace = tracer.begin("NameService.register");
         try {
-            Broker result = delegate.register(brokerId, brokerIp, port);
+            Broker result = delegate.register(brokerId, brokerHost, brokerIp, port, node);
             tracer.end(trace);
             return result;
         } catch (Exception e) {

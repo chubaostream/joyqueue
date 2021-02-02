@@ -23,20 +23,7 @@ import com.google.common.collect.Maps;
 import com.jd.laf.extension.ExtensionPoint;
 import com.jd.laf.extension.ExtensionPointLazy;
 import org.apache.commons.lang3.RandomUtils;
-import org.joyqueue.domain.AllMetadata;
-import org.joyqueue.domain.AppToken;
-import org.joyqueue.domain.Broker;
-import org.joyqueue.domain.ClientType;
-import org.joyqueue.domain.Config;
-import org.joyqueue.domain.Consumer;
-import org.joyqueue.domain.DataCenter;
-import org.joyqueue.domain.PartitionGroup;
-import org.joyqueue.domain.Producer;
-import org.joyqueue.domain.Replica;
-import org.joyqueue.domain.Subscription;
-import org.joyqueue.domain.Topic;
-import org.joyqueue.domain.TopicConfig;
-import org.joyqueue.domain.TopicName;
+import org.joyqueue.domain.*;
 import org.joyqueue.event.NameServerEvent;
 import org.joyqueue.nsr.ManageServer;
 import org.joyqueue.nsr.MetaManager;
@@ -44,16 +31,7 @@ import org.joyqueue.nsr.NameService;
 import org.joyqueue.nsr.ServiceProvider;
 import org.joyqueue.nsr.config.NameServerConfig;
 import org.joyqueue.nsr.exception.NsrException;
-import org.joyqueue.nsr.service.AppTokenService;
-import org.joyqueue.nsr.service.BrokerService;
-import org.joyqueue.nsr.service.ConfigService;
-import org.joyqueue.nsr.service.ConsumerService;
-import org.joyqueue.nsr.service.DataCenterService;
-import org.joyqueue.nsr.service.NamespaceService;
-import org.joyqueue.nsr.service.PartitionGroupReplicaService;
-import org.joyqueue.nsr.service.PartitionGroupService;
-import org.joyqueue.nsr.service.ProducerService;
-import org.joyqueue.nsr.service.TopicService;
+import org.joyqueue.nsr.service.*;
 import org.joyqueue.nsr.util.DCWrapper;
 import org.joyqueue.toolkit.concurrent.EventBus;
 import org.joyqueue.toolkit.concurrent.EventListener;
@@ -65,16 +43,7 @@ import org.joyqueue.toolkit.service.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -390,22 +359,12 @@ public class NameServerInternal extends Service implements NameService, Property
     }
 
     @Override
-    public Broker register(Integer brokerId, String brokerIp, Integer port) {
-        Broker broker = null;
+    public Broker register(Integer brokerId, String brokerHost, String brokerIp, Integer port, String node) {
+        Broker broker;
         if (null == brokerId) {
-            broker = metaManager.getBrokerByIpAndPort(brokerIp, port);
+            broker = metaManager.getBrokerByIpAndPort(brokerHost, port);
             if (null == broker) {
-                brokerId = generateBrokerId();
-                broker = new Broker();
-                broker.setId(brokerId);
-                broker.setIp(brokerIp);
-                DataCenter dataCenter = getDataCenter(brokerIp);
-                broker.setDataCenter(dataCenter.getCode());
-                broker.setPort(port);
-                broker.setRetryType(Broker.DEFAULT_RETRY_TYPE);
-                broker.setPermission(Broker.PermissionEnum.FULL);
-                metaManager.addBroker(broker);
-                logger.info("register broker success broker.id {}", brokerId);
+                broker = addNewBroker(generateBrokerId(), brokerHost, brokerIp, port, node);
             } else {
                 brokerId = broker.getId();
             }
@@ -413,12 +372,34 @@ public class NameServerInternal extends Service implements NameService, Property
         //TODO 并未去更新broker的IP
         broker = metaManager.getBrokerById(brokerId);
         if (null != broker) {
-            broker.setIp(brokerIp);
+            broker.setIp(brokerHost);
+            broker.setExternalIp(brokerIp);
             broker.setPort(port);
+            broker.setExternalPort(port);
             broker.setDataCenter(getDataCenter(brokerIp).getCode());
+            broker.setNode(node);
             metaManager.updateBroker(broker);
+        } else {
+            broker = addNewBroker(brokerId, brokerHost, brokerIp, port, node);
         }
 
+        return broker;
+    }
+
+    protected Broker addNewBroker(Integer brokerId, String brokerHost, String brokerIp, Integer port, String node) {
+        Broker broker = new Broker();
+        broker.setId(brokerId);
+        broker.setIp(brokerHost);
+        broker.setExternalIp(brokerIp);
+        broker.setPort(port);
+        broker.setExternalPort(port);
+        broker.setNode(node);
+
+        broker.setDataCenter(getDataCenter(brokerIp).getCode());
+        broker.setRetryType(Broker.DEFAULT_RETRY_TYPE);
+        broker.setPermission(Broker.PermissionEnum.FULL);
+        metaManager.addBroker(broker);
+        logger.info("register broker success broker.id {}", brokerId);
         return broker;
     }
 

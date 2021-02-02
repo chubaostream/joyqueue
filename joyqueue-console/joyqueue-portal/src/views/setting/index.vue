@@ -6,6 +6,9 @@
         <d-menu-item name="dataCenter" icon="radio" :size="iconSize" :to="`/${ curLang }/setting/dataCenter`"><!--color="#FFD306"-->
           <span class="layout-text">{{ langConfig.dataCenter }}</span>
         </d-menu-item>
+        <d-menu-item name="dataCenter" icon="radio" :size="iconSize" :to="`/${ curLang }/setting/user`"><!--color="#FFD306"-->
+          <span class="layout-text">{{ langConfig.user }}</span>
+        </d-menu-item>
         <d-menu-item name="config" icon="edit" :size="iconSize" :to="`/${ curLang }/setting/config`"><!--color="#7FB3D5"-->
           <span class="layout-text">{{ langConfig.config }}</span>
         </d-menu-item>

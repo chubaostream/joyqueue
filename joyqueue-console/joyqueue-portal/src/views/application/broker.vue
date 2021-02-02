@@ -77,9 +77,20 @@ export default {
             }
           },
           {
+            title: '对外Ip:端口',
+            key: 'externalIp',
+            width: '15%',
+            formatter (row) {
+              if (row.externalIp) {
+                return row.externalIp + ':' + row.externalPort
+              }
+              return ''
+            }
+          },
+          {
             title: '机房 (编码/名称)',
             key: 'dataCenter.code',
-            width: '17%',
+            width: '10%',
             formatter (item) {
               if (item.dataCenter) {
                 return item.dataCenter.code + '/' + item.dataCenter.name
@@ -104,12 +115,12 @@ export default {
           {
             title: '版本',
             key: 'startupInfo.version',
-            width: '12%'
+            width: '10%'
           },
           {
             title: '开机时间',
             key: 'startupInfo.startupTime',
-            width: '12%',
+            width: '10%',
             formatter (item) {
               return timeStampToString(item.startupInfo.startupTime)
             }
@@ -141,14 +152,6 @@ export default {
             title: '备注',
             key: 'description'
           }
-          // {
-          //   title:'状态',
-          //   key: 'status',
-          //   render:(h, params) => {
-          //     let txt = params.item.status == 1 ? '已启用' : '不可用'
-          //     return h('label', {}, txt)
-          //   }
-          // }
         ]
       }
     }

@@ -20,7 +20,7 @@
     <parent>
         <artifactId>joyqueue-distribution</artifactId>
         <groupId>org.joyqueue</groupId>
-        <version>4.2.8-SNAPSHOT</version>
+        <version>4.2.7.TPAAS</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -33,6 +33,11 @@
         <dependency>
             <groupId>org.joyqueue</groupId>
             <artifactId>joyqueue-web-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.joyqueue</groupId>
+            <artifactId>joyqueue-portal</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

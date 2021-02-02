@@ -47,14 +47,12 @@ public class BrokerGroupRelatedServiceImpl extends PageServiceSupport<BrokerGrou
 
     @Override
     public Map<Long, Identity> findGroupByBrokerIds(List<Long> brokerIds) {
-        if (CollectionUtils.isNotEmpty(brokerIds)) {
-            List<BrokerGroupRelated> brokerGroupRelateds = repository.findByBrokerIds(brokerIds);
-            if (CollectionUtils.isNotEmpty(brokerGroupRelateds)) {
-                return brokerGroupRelateds.stream()
-                        .filter(brokerGroupRelated -> brokerGroupRelated.getGroup() != null)
-                        .collect(Collectors.toMap(BrokerGroupRelated::getId,
-                                BrokerGroupRelated::getGroup));
-            }
+        List<BrokerGroupRelated> brokerGroupRelateds = repository.findByBrokerIds(brokerIds);
+        if (CollectionUtils.isNotEmpty(brokerGroupRelateds)) {
+            return brokerGroupRelateds.stream()
+                    .filter(brokerGroupRelated -> brokerGroupRelated.getGroup() != null)
+                    .collect(Collectors.toMap(BrokerGroupRelated::getId,
+                            BrokerGroupRelated::getGroup));
         }
         return Collections.emptyMap();
     }

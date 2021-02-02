@@ -43,7 +43,7 @@ import apiRequest from '../../utils/apiRequest.js'
 import crud from '../../mixins/crud.js'
 
 import {timeStampToString} from '../../utils/dateTimeUtils'
-import GridRow from "../../components/grid/row";
+import GridRow from '../../components/grid/row'
 
 export default {
   name: 'msg-detail',
@@ -51,7 +51,7 @@ export default {
   mixins: [crud],
   props: {
     messageTypes: Array, // 支持的消息格式
-    messageType:String,// 消息格式
+    messageType: String, // 消息格式
     doSearch: {
       type: Boolean,
       default: false
@@ -127,7 +127,7 @@ export default {
         partition: '',
         index: '',
         timestamp: '',
-        messageDecodeType:''
+        messageDecodeType: ''
       },
       urls: {
         getMsgDetail: '/monitor/view/message'
@@ -143,7 +143,7 @@ export default {
   },
   methods: {
     getList () {
-      this.searchData.messageDecodeType=this.messageType
+      this.searchData.messageDecodeType = this.messageType
       if (!this.searchData.partition) {
         this.$Message.error('验证不通过: 分区必填')
         return

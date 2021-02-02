@@ -55,14 +55,11 @@ axios.interceptors.response.use(response => {
   } else if (response.data.code === 300) {
     return Promise.resolve(response)
   } else {
-    console.log('err')
-    console.log(response.data)
     let err = response.data.message || 'Operation failed.'
     VInstance.$Message.error(err)
     return Promise.reject(err)
   }
 }, err => {
-  console.log('err', err.response)
   loading.finish()
   VInstance.$Message.error(err.toString())
   return Promise.reject(err)

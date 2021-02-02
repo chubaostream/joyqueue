@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>joyqueue-retry</artifactId>
+        <groupId>org.joyqueue</groupId>
+        <version>4.2.7.TPAAS</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>joyqueue-retry-db-cache</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.joyqueue</groupId>
+            <artifactId>joyqueue-retry-db</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jd.laf</groupId>
+            <artifactId>laf-extension-core</artifactId>
+            <version>${laf-extention.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.joyqueue</groupId>
+            <artifactId>joyqueue-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.joyqueue</groupId>
+            <artifactId>joyqueue-retry-api</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

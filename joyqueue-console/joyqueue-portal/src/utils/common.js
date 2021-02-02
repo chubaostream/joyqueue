@@ -226,17 +226,17 @@ export function clientTypeOptions () {
       value: 1,
       txt: 'kafka',
       color: 'warning'
-    },
-    {
-      value: 2,
-      txt: 'mqtt',
-      color: 'danger'
-    },
-    {
-      value: 10,
-      txt: 'others',
-      color: 'info'
     }
+    // ,{
+    //   value: 2,
+    //   txt: 'mqtt',
+    //   color: 'danger'
+    // },
+    // {
+    //   value: 10,
+    //   txt: 'others',
+    //   color: 'info'
+    // }
   ]
 }
 export function topicTypeOptions () {

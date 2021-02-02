@@ -26,6 +26,8 @@ public class QUser extends QKeyword {
 
     private Long appId;
 
+    private String password;
+
     public QUser() {
 
     }
@@ -54,6 +56,14 @@ public class QUser extends QKeyword {
 
     public void setAppId(Long appId) {
         this.appId = appId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

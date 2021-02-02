@@ -261,7 +261,7 @@ export default {
         title: '提示',
         content: '确定要取消订阅吗？'
       }).then(() => {
-        apiRequest.delete(_this.urls.del + '/' + item.id).then((data) => {
+        apiRequest.postBase(_this.urls.del, {}, item.id, true).then((data) => {
           if (data.code !== this.$store.getters.successCode) {
             this.$Dialog.error({
               content: '取消订阅失败'

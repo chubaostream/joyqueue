@@ -20,7 +20,7 @@
     <parent>
         <artifactId>joyqueue-server</artifactId>
         <groupId>org.joyqueue</groupId>
-        <version>4.2.8-SNAPSHOT</version>
+        <version>4.2.7.TPAAS</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,6 +32,7 @@
         <module>joyqueue-retry-api</module>
         <module>joyqueue-retry-db</module>
         <module>joyqueue-retry-remote</module>
+        <module>joyqueue-retry-db-cache</module>
         <module>joyqueue-retry-db-console</module>
         <module>joyqueue-retry-h2</module>
     </modules>

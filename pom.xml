@@ -19,7 +19,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.joyqueue</groupId>
-    <version>4.2.8-SNAPSHOT</version>
+    <version>4.2.7.TPAAS</version>
     <artifactId>joyqueue</artifactId>
     <packaging>pom</packaging>
     <url>http://www.joyqueue.org</url>
@@ -69,6 +69,7 @@
     <properties>
         <journalkeeper.version>0.1.7</journalkeeper.version>
         <fastjson.version>1.2.68</fastjson.version>
+        <druid.version>1.1.19</druid.version>
         <netty.version>4.1.27.Final</netty.version>
         <log4j.version>2.13.3</log4j.version>
         <commons-logging.version>1.2</commons-logging.version>
@@ -149,7 +150,7 @@
         <module>joyqueue-console</module>
         <module>joyqueue-client</module>
         <module>joyqueue-openmessaging</module>
-        <module>docker</module>
+        <module>joyqueue-docker</module>
         <module>joyqueue-distribution</module>
         <module>toolkit</module>
     </modules>
@@ -209,6 +210,16 @@
             <dependency>
                 <groupId>org.joyqueue</groupId>
                 <artifactId>joyqueue-retry-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.joyqueue</groupId>
+                <artifactId>joyqueue-retry-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.joyqueue</groupId>
+                <artifactId>joyqueue-retry-db-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -323,6 +334,11 @@
             </dependency>
             <dependency>
                 <groupId>org.joyqueue</groupId>
+                <artifactId>joyqueue-broker-joyqueue0</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.joyqueue</groupId>
                 <artifactId>joyqueue-server-runtime</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -387,6 +403,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.inject</groupId>

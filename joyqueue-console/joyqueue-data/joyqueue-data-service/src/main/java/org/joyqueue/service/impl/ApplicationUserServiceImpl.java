@@ -41,4 +41,9 @@ public class ApplicationUserServiceImpl extends PageServiceSupport<ApplicationUs
     public int deleteByAppId(long appId) {
         return repository.deleteByAppId(appId);
     }
+
+    @Override
+    public int deleteAppUserByUserId(long userId) {
+        return repository.deleteAppUserByUserId(userId);
+    }
 }

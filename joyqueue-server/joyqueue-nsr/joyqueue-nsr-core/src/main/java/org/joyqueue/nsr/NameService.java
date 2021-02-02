@@ -146,7 +146,7 @@ public interface NameService extends LifeCycle {
      * @param brokerIp
      * @return
      */
-    Broker register(Integer brokerId, String brokerIp, Integer port);
+    Broker register(Integer brokerId, String brokerHost, String brokerIp, Integer port, String node);
 
     /**
      * 获取ProducerConfig信息

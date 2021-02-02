@@ -68,7 +68,7 @@ export default {
           },
           {
             title: '中文名',
-            key: 'name',
+            key: 'code',
             width: '12%'
           },
           {

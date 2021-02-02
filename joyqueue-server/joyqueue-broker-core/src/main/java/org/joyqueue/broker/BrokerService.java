@@ -385,10 +385,11 @@ public class BrokerService extends Service {
         }
 
         logger.info(buffer.toString());
-        logger.info("broker.id[{}],ip[{}],frontPort[{}],backendPort[{}],monitorPort[{}],nameServerManager port[{}]," +
-                        "nameServer port[{}],messenger port[{}],journalkeeper port[{}]",
+        logger.info("broker.id[{}],ip[{}],externalIp[{}],frontPort[{}],backendPort[{}],monitorPort[{}],nameServerManager port[{}]," +
+                        "nameServer port[{}],messenger port[{}]",
                 brokerConfig.getBrokerId(),
                 clusterManager.getBroker().getIp(),
+                clusterManager.getBroker().getExternalIp(),
                 brokerConfig.getFrontendConfig().getPort(),
                 brokerConfig.getBackendConfig().getPort(),
                 brokerConfig.getBroker().getMonitorPort(),

@@ -39,8 +39,9 @@ public class BrokerNodeConverter {
     public static BrokerNode convertBrokerNode(Broker broker, DataCenter brokerDataCenter, String region, int weight) {
         BrokerNode result = new BrokerNode();
         result.setId(broker.getId());
-        result.setHost(broker.getIp());
-        result.setPort(broker.getPort());
+        // If externalIp is blank, set host as ip value
+        result.setHost(broker.getRealIp());
+        result.setPort(broker.getRealPort());
         result.setDataCenter(brokerDataCenter == null ? null : brokerDataCenter.getRegion());
 
         if (StringUtils.isBlank(region) || brokerDataCenter == null) {

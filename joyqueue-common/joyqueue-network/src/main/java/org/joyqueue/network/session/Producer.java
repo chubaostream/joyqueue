@@ -80,6 +80,7 @@ public class Producer extends Joint {
     public enum ProducerType {
         JOYQUEUE,
         JMQ2,
+        JOYQUEUE0,
         KAFKA,
         MQTT,
         INTERNAL;

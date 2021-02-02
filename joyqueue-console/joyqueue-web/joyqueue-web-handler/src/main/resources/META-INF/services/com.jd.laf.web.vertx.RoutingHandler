@@ -5,5 +5,6 @@ org.joyqueue.handler.routing.validate.ValidateApplicationOwnerHandler
 org.joyqueue.handler.routing.validate.ValidateApplicationOfHeaderHandler
 org.joyqueue.handler.routing.validate.ValidateTokenOfApplicationHandler
 org.joyqueue.handler.routing.validate.ValidateAppTokenHandler
-org.joyqueue.handler.routing.AdminLoginHandler
 org.joyqueue.handler.routing.GetLoginUserHandler
+org.joyqueue.handler.routing.UserLoginHandler
+org.joyqueue.handler.routing.UserLogoutHandler
